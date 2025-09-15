@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-personal-details',
@@ -9,25 +10,38 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './personal-details.html',
   styleUrls: ['./personal-details.css']
 })
-export class PersonalDetails {
+export class PersonalDetails implements OnInit {
   editing = false;
   personal = {
-    name: 'John Doe',
-    email: 'john.doe@email.com',
-    dob: '1990-01-01',
-    phone: '9876543210',
-    gender: 'Male',
-    address: '123 Main St, City, Country'
+    name: '',
+    email: '',
+    address: '',
+    dob: '',
+    phone: '',
+    gender: ''
   };
   temp = { ...this.personal };
+
+  constructor(private http: HttpClient) {}
+
+  ngOnInit() {
+    this.http.get<any>('https://api.example.com/profile')
+      .subscribe(data => {
+        this.personal = data;
+        this.temp = { ...data };
+      });
+  }
 
   edit() {
     this.editing = true;
     this.temp = { ...this.personal };
   }
   save() {
-    this.personal = { ...this.temp };
-    this.editing = false;
+    this.http.put('https://api.example.com/profile', this.temp)
+      .subscribe(updated => {
+        this.personal = { ...this.temp };
+        this.editing = false;
+      });
   }
   cancel() {
     this.editing = false;

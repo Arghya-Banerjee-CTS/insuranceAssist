@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 interface Dependent {
+  id?: string;
   name: string;
   dob: string;
   contact: string;
@@ -21,25 +23,17 @@ interface Dependent {
   templateUrl: './dependents-details.html',
   styleUrls: ['./dependents-details.css']
 })
-export class DependentsDetails {
-  dependents: Dependent[] = [
-    {
-      name: 'Jane Doe',
-      dob: '2010-05-12',
-      contact: '9876543211',
-      address: '123 Main St, City, Country',
-      relation: 'Daughter',
-      gender: 'Female'
-    },
-    {
-      name: 'Sam Doe',
-      dob: '2012-08-22',
-      contact: '9876543212',
-      address: '123 Main St, City, Country',
-      relation: 'Son',
-      gender: 'Male'
-    }
-  ];
+export class DependentsDetails implements OnInit {
+  dependents: Dependent[] = [];
+
+  constructor(private http: HttpClient) {}
+
+  ngOnInit() {
+    this.http.get<Dependent[]>('https://api.example.com/dependents')
+      .subscribe(data => {
+        this.dependents = data;
+      });
+  }
 
   addDependent() {
     this.dependents.push({
@@ -68,10 +62,20 @@ export class DependentsDetails {
   }
 
   save(dep: Dependent) {
-    Object.assign(dep, dep.temp);
-    dep.editing = false;
-    dep.isNew = false;
-    // TODO: Add backend API call here later
+    if (dep.isNew) {
+      this.http.post<Dependent>('https://api.example.com/dependents', dep.temp)
+        .subscribe(newDep => {
+          Object.assign(dep, newDep);
+          dep.editing = false;
+          dep.isNew = false;
+        });
+    } else {
+      this.http.put<Dependent>(`https://api.example.com/dependents/${dep.id}`, dep.temp)
+        .subscribe(updatedDep => {
+          Object.assign(dep, updatedDep);
+          dep.editing = false;
+        });
+    }
   }
 
   cancel(dep: Dependent) {

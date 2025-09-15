@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-policy-details',
@@ -9,13 +10,22 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './policy-details.html',
   styleUrls: ['./policy-details.css']
 })
-export class PolicyDetails {
+export class PolicyDetails implements OnInit {
   policy = {
-    id: 'POL123456',
-    type: 'Health Insurance',
-    startDate: '2024-01-01',
-    endDate: '2025-01-01',
-    premium: '₹12,000',
-    coverage: '₹5,00,000'
+    id: '',
+    type: '',
+    startDate: '',
+    endDate: '',
+    premium: '',
+    coverage: ''
   };
+
+  constructor(private http: HttpClient) {}
+
+  ngOnInit() {
+    this.http.get<any>('https://api.example.com/policy')
+      .subscribe(data => {
+        this.policy = data;
+      });
+  }
 }
