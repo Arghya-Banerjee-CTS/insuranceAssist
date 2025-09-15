@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { PersonalDetails } from './personal-details/personal-details';
 import { PolicyDetails } from './policy-details/policy-details';
 import { DependentsDetails } from './dependents-details/dependents-details';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-profile',
@@ -13,4 +14,10 @@ import { DependentsDetails } from './dependents-details/dependents-details';
 })
 export class Profile {
   activeTab: 'personal' | 'policy' | 'dependents' = 'personal';
+
+  constructor(private location: Location) {}
+
+  goBack() {
+    this.location.back();
+  }
 }

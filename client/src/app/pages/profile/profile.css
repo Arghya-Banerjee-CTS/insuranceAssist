@@ -11,6 +11,7 @@
   transform-origin: top center;
   width: 100%;
   margin: 0 auto;
+  position: relative;
 }
 
 .sidebar {
@@ -97,4 +98,24 @@ b {
   display: block;
   margin-bottom: 24px;
   letter-spacing: 0.01em;
+}
+
+.close-btn {
+  position: absolute;
+  top: 32px;
+  right: 48px;
+  background: #e3eafc;
+  color: #1976d2;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 2rem;
+  font-weight: 700;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
 }
