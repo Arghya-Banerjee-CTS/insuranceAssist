@@ -4,6 +4,7 @@ import { Layout } from './pages/layout/layout';
 import { Dashboard } from './pages/dashboard/dashboard';
 import { AgentDashboard } from './pages/dashboard/agent/agent-dashboard';
 import { ClientDashboard } from './pages/dashboard/client/client-dashboard';
+import { Profile } from './pages/profile/profile';
 export const routes: Routes = [
     {
         path:'',
@@ -26,5 +27,10 @@ export const routes: Routes = [
                 path: 'dashboard/agent',
                 component: AgentDashboard
             }]    
+    },
+    // Temporary routing for client profile page.
+    {
+        path: 'profile/client',
+        component: Profile
     }
 ];
