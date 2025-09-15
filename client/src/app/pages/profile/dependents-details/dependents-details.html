@@ -1,0 +1,44 @@
+<div class="dependents-list">
+  <div class="dependent-card" *ngFor="let dep of dependents">
+    <div class="dependent-grid">
+      <div class="detail-item">
+        <label>Name:</label>
+        <span *ngIf="!dep.editing">{{ dep.name }}</span>
+        <input *ngIf="dep.editing" [(ngModel)]="dep.temp!.name" />
+      </div>
+      <div class="detail-item">
+        <label>Date of Birth:</label>
+        <span *ngIf="!dep.editing">{{ dep.dob }}</span>
+        <input *ngIf="dep.editing" [(ngModel)]="dep.temp!.dob" />
+      </div>
+      <div class="detail-item">
+        <label>Contact:</label>
+        <span *ngIf="!dep.editing">{{ dep.contact }}</span>
+        <input *ngIf="dep.editing" [(ngModel)]="dep.temp!.contact" />
+      </div>
+      <div class="detail-item">
+        <label>Address:</label>
+        <span *ngIf="!dep.editing">{{ dep.address }}</span>
+        <input *ngIf="dep.editing" [(ngModel)]="dep.temp!.address" />
+      </div>
+      <div class="detail-item">
+        <label>Relation:</label>
+        <span *ngIf="!dep.editing">{{ dep.relation }}</span>
+        <input *ngIf="dep.editing" [(ngModel)]="dep.temp!.relation" />
+      </div>
+      <div class="detail-item">
+        <label>Gender:</label>
+        <span *ngIf="!dep.editing">{{ dep.gender }}</span>
+        <input *ngIf="dep.editing" [(ngModel)]="dep.temp!.gender" />
+      </div>
+    </div>
+    <div class="actions">
+      <button *ngIf="!dep.editing" (click)="edit(dep)" class="blue-btn">Edit</button>
+      <button *ngIf="dep.editing" (click)="save(dep)" class="blue-btn">Save</button>
+      <button *ngIf="dep.editing" (click)="cancel(dep)" class="cancel-btn">Cancel</button>
+    </div>
+  </div>
+</div>
+<div class="add-btn-container">
+  <button class="blue-btn" (click)="addDependent()">Add Dependent</button>
+</div>
