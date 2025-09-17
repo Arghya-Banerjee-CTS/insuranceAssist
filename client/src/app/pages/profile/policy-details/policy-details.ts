@@ -17,8 +17,9 @@ export class PolicyDetails implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    const clientId = '8e373dfa-0335-406b-a0b9-081819b3da0d';
-    const url = `${environment.apiUrl}/v1/private/policy/get/${clientId}`;
+    // const clientId = '95df5a86-fca9-41f0-bf81-3d64a2811f8f'; // Temp Value
+    const clientId = localStorage.getItem('userId');
+    const url = `${environment.apiUrl}/private/policy/get/${clientId}`;
     this.http.get(url).subscribe(data => {
       this.policy = data;
     });
