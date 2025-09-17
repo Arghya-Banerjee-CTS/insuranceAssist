@@ -67,8 +67,9 @@ public class ClaimService {
         );
 
         UUID claimId = authorizationRepository.save(claim).getId();
+
         AuthorizationLog log = new AuthorizationLog(
-                policy,
+                claim,
                 null,
                 status,
                 LocalDateTime.now()
@@ -160,10 +161,18 @@ public class ClaimService {
 
         claim.setStatus(currStatus);
 
+        StatusTypeMaster approvedStatus = statusTypeMasterRepository.findById(3L)
+                        .orElseThrow(() -> new StatusTypeNotFoundException("Status type not found with id: " + 3));
+
         authorizationRepository.save(claim);
 
+        PolicyMaster policy = claim.getPolicy();
+        policy.setRemainingCovergae(policy.getRemainingCovergae() - claim.getClaimAmount());
+
+        policyMasterRepository.save(policy);
+
         AuthorizationLog log = new AuthorizationLog(
-                claim.getPolicy(),
+                claim,
                 prevStatus,
                 currStatus,
                 LocalDateTime.now()

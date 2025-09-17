@@ -6,7 +6,10 @@ import com.example.insuranceAssist.entity.UserMaster;
 import com.example.insuranceAssist.repository.RoleMasterRepository;
 import com.example.insuranceAssist.repository.UserMasterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 public class RegistrationService {
@@ -16,8 +19,11 @@ public class RegistrationService {
     @Autowired
     private RoleMasterRepository roleMasterRepository;
 
-    public void register(RegistrationRequestDTO request) {
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
+    public UUID register(RegistrationRequestDTO request) {
+
+        request.setPassword(encoder.encode(request.getPassword()));
         String[] emailParts = request.getEmail().split("@");
         int atInd = emailParts[1].indexOf('.');
         String username = emailParts[0] + emailParts[1].substring(0, atInd);
@@ -36,6 +42,6 @@ public class RegistrationService {
                 clientRole
         );
 
-        userMasterRepository.save(user);
+        return userMasterRepository.save(user).getId();
     }
 }

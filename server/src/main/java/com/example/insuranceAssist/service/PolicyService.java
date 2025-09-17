@@ -51,7 +51,8 @@ public class PolicyService {
                 policyType.getTier(),
                 policy.getStartDate(),
                 policy.getEndDate(),
-                policy.getPremium()
+                policy.getPremium(),
+                policy.getRemainingCovergae()
         );
 
     }
@@ -105,7 +106,8 @@ public class PolicyService {
                 policy.getPolicyType().getTier(),
                 policy.getStartDate(),
                 policy.getEndDate(),
-                policy.getPremium()
+                policy.getPremium(),
+                policy.getRemainingCovergae()
         );
 
     }
