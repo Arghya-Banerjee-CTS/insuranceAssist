@@ -2,7 +2,7 @@ import { HttpInterceptorFn } from '@angular/common/http';
 
 export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
   // debugger;
-  if (req.url.includes('/api/v1/public/login')) {
+  if (req.url.includes('/api/v1/public/login')||req.url.includes('/api/v1/public/register')) {
     return next(req);
   }
   debugger;

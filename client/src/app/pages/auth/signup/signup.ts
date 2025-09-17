@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 @Component({
@@ -11,12 +10,19 @@ import { Router } from '@angular/router';
 })
 
 export class Signup {
-  signupForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) {
-      this.signupForm = this.fb.group({
-          fullName: ['', Validators.required],
-          username: ['', Validators.required],
+  private router = inject(Router);
+  private fb = inject(FormBuilder);
+
+  signupForm: FormGroup = new FormGroup({});
+
+  ngOnInit(){
+    const saved = localStorage.getItem('signupDetails');
+    const parsed = saved ? JSON.parse(saved) : [];
+
+    this.signupForm = this.fb.group({
+          name: ['', Validators.required],
+          // username: ['', Validators.required],
           email: ['', [Validators.required, Validators.email]],
           confirmEmail: ['', [Validators.required, Validators.email]],
           dob: ['', Validators.required],
@@ -26,18 +32,21 @@ export class Signup {
           password: ['', [Validators.required, Validators.minLength(6)]],
           confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
       });
+
+    if (saved) {
+          this.signupForm = this.fb.group(JSON.parse(saved));
+    }
+
+    this.signupForm.valueChanges.subscribe(val => {
+        localStorage.setItem('signupDetails', JSON.stringify(val));
+    });
   }
 
   onSignup() {
-      // if (this.signupForm.valid) {
-      //     this.http.post('/api/signup', this.signupForm.value).subscribe({
-      //         next: () => { 
-      //             this.router.navigate(['/auth/dependents-nomination']);
-      //         }
-      //         , error: () => { console.error('Signup failed'); }
-      //     });
-      // }
-      this.router.navigateByUrl('/auth/dependents-nomination');
+      if(this.signupForm.valid){
+        localStorage.setItem('signupDetails', JSON.stringify(this.signupForm.value));
+        this.router.navigateByUrl('/auth/dependents-nomination');
+      }
   }
 }
 
