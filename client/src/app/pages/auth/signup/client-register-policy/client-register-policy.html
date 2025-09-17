@@ -1,0 +1,33 @@
+<div class="card w-50 mb-3 mx-auto mt-4">
+  <div class="card-body">
+    <form [formGroup]="choosePlanForm" (ngSubmit)="onSubmit()">
+      <h4 class="mb-4">Select Policy Plan</h4>
+      <div class="mb-3">
+        <label for="plan" class="form-label">Policy Plan</label>
+        <select class="form-select" id="plan" formControlName="plan">
+          <option value="" disabled selected>Select a plan</option>
+          @for (plan of plans; track plan.name) {
+            <option [value]="plan.name">{{ plan.name }}</option>
+          }
+        </select>
+      </div>
+
+      @if (selectedPlan) {
+        <div class="mt-4">
+          <h5>Plan Details</h5>
+          <ul class="list-group">
+            <li class="list-group-item"><strong>Base Premium:</strong> ₹{{ selectedPlan.basePremium }}</li>
+            <li class="list-group-item"><strong>Coverage:</strong> {{ selectedPlan.coverage }}</li>
+            <li class="list-group-item"><strong>Procedures Insured:</strong> {{ selectedPlan.proceduresInsured }}</li>
+            <li class="list-group-item"><strong>Deductible:</strong> ₹{{ selectedPlan.deductible }}</li>
+            <li class="list-group-item"><strong>Premium per Dependent:</strong> ₹{{ selectedPlan.premiumPerDependent }}</li>
+            <li class="list-group-item"><strong>Number of Dependents:</strong> {{ numDependents }}</li>
+            <li class="list-group-item"><strong>Total Premium per Month:</strong> ₹{{ totalPremium }}</li>
+          </ul>
+        </div>
+      }
+
+      <button type="submit" class="btn btn-primary w-100 mt-4" [disabled]="!choosePlanForm.valid">Continue</button>
+    </form>
+  </div>
+</div>
