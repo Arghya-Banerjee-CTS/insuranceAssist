@@ -29,7 +29,8 @@ export class ClientRegisterDependents {
       contact: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
       address: ['', Validators.required],
       gender: ['', Validators.required],
-      relationshipTypeId: ['', Validators.required]
+      relationTypeId: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]]
     }));
   }
 

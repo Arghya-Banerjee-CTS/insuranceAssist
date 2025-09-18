@@ -124,30 +124,68 @@ export class ClientRegisterPolicy {
       this.http.post<{ client_id: number }>(`${environment.apiUrl}/public/register`, {...signupDetails}).subscribe({
         next: (registerRes) => {
           
-          debugger;
-          const client_id = registerRes.client_id;
- 
-          // 3. Preparing policy payload
-          const today = new Date();
-          const startDate = today.toISOString().split('T')[0]; // yyyy-mm-dd
-          const endDate = new Date(today.getFullYear() + 1, today.getMonth(), today.getDate())
-            .toISOString().split('T')[0]; // +1 year
-          const policyTypeId = this.selectedPlan!.id;          
+              debugger;
+              const clientId = registerRes.client_id;
 
-          // 4. Creating policy
-          this.http.post(`${environment.apiUrl}/private/policy/create`, {
-            client_id,
-            policyTypeId,
-            startDate,
-            endDate,
-            noOfDependents: this.numDependents
-          }).subscribe({
-            next: () => {
-              alert('Registration and policy creation successful!');
-              this.router.navigate(['/auth']);
+              this.http.post(`${environment.apiUrl}/public/login`, {username: signupDetails.email.replace(/[@]|.com/g, ""), password: signupDetails.password}).subscribe({
+                next: (loginRes:any) => {
+                  if(loginRes && loginRes.token){
+                    localStorage.setItem('token', loginRes.token);
+
+                              // 3. Preparing policy payload
+              const today = new Date();
+              const startDate = today.toISOString().split('T')[0]; // yyyy-mm-dd
+              const endDate = new Date(today.getFullYear() + 1, today.getMonth(), today.getDate())
+                .toISOString().split('T')[0]; // +1 year
+              const policyType = this.selectedPlan!.id;          
+
+              // 4. Creating policy
+              this.http.post(`${environment.apiUrl}/private/policy/create`, {
+                clientId,
+                policyType,
+                startDate,
+                endDate,
+                noOfDependents: this.numDependents
+              }).subscribe({
+                next: () => {
+
+                  let completed = 0;
+                  dependents.forEach((dep: { name: any; dob: any; contact: any; address: any; relationTypeId: any; gender: any; email: any; }) => {
+                    const dependentPayload = {
+                      name: dep.name,
+                      dob: dep.dob, 
+                      phone: dep.contact,
+                      address: dep.address,
+                      relationTypeId: dep.relationTypeId,
+                      gender: dep.gender,
+                      email: dep.email,
+                      clientId: clientId
+                    };
+
+                    console.log(dependentPayload);
+                    debugger;
+
+                    this.http.post(`${environment.apiUrl}/private/dependent/create`, dependentPayload)
+                      .subscribe({
+                        next: () => {
+                          completed++;
+                        },
+                        error: () => {
+                            alert('Dependent creation failed.')
+                        }
+                      });
+                  });
+                  alert('Registration and policy creation successful!');
+                  this.router.navigate(['/auth']);
+                },
+                error: () => {
+                  alert('Policy creation failed.');
+                }
+              });
+              }
             },
             error: () => {
-              alert('Policy creation failed.');
+              alert('Auto-login failed after registration.');
             }
           });
         },
@@ -159,6 +197,4 @@ export class ClientRegisterPolicy {
       this.router.navigate(['/auth']);
     }
   }
-
-
 }
