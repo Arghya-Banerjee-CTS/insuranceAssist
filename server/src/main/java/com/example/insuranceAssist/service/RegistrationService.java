@@ -28,7 +28,7 @@ public class RegistrationService {
         int atInd = emailParts[1].indexOf('.');
         String username = emailParts[0] + emailParts[1].substring(0, atInd);
 
-        RoleMaster clientRole = roleMasterRepository.findById(1L).orElseThrow();
+        RoleMaster clientRole = roleMasterRepository.findById(2L).orElseThrow();
 
         UserMaster user = new UserMaster(
                 username,
