@@ -22,6 +22,7 @@ public class ClaimController {
         this.claimService = claimService;
     }
 
+//    @PreAuthorize("hasRole('CLIENT')")
     @PostMapping("/create")
     public ResponseEntity<UUID> createClaim(@RequestBody ClaimCreateRequestDTO request) throws ClientNotFoundException, StatusTypeNotFoundException, ClaimTypeNotFoundException {
         UUID claimId = claimService.createClaim(request);
