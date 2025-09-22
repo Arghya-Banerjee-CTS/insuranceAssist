@@ -1,0 +1,34 @@
+<div class="personal-details-grid">
+  <div class="detail-item">
+    <label>Name:</label>
+    <span>{{ personal.name }}</span>
+  </div>
+  <div class="detail-item">
+    <label>Email:</label>
+    <span *ngIf="!editing">{{ personal.email }}</span>
+    <input *ngIf="editing" [(ngModel)]="temp.email" />
+  </div>
+  <div class="detail-item">
+    <label>Date of Birth:</label>
+    <span>{{ personal.dob }}</span>
+  </div>
+  <div class="detail-item">
+    <label>Phone:</label>
+    <span *ngIf="!editing">{{ personal.phone }}</span>
+    <input *ngIf="editing" [(ngModel)]="temp.phone" />
+  </div>
+  <div class="detail-item">
+    <label>Gender:</label>
+    <span>{{ personal.gender }}</span>
+  </div>
+  <div class="detail-item">
+    <label>Address:</label>
+    <span *ngIf="!editing">{{ personal.address }}</span>
+    <input *ngIf="editing" [(ngModel)]="temp.address" />
+  </div>
+</div>
+<div class="actions">
+  <button *ngIf="!editing" (click)="edit()" class="blue-btn">Edit</button>
+  <button *ngIf="editing" (click)="save()" class="blue-btn">Save</button>
+  <button *ngIf="editing" (click)="cancel()" class="cancel-btn">Cancel</button>
+</div>
