@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../../environments/environment.development';
 
+
 interface PlanDetails {
   id: number;
   name: string;
@@ -126,7 +127,7 @@ export class ClientRegisterPolicy {
         next: (registerRes) => {
           
               debugger;
-              const clientId = registerRes.client_id;
+              const clientId = localStorage.getItem('userId');
 
               this.http.post(`${environment.apiUrl}/public/login`, {username: signupDetails.email.replace(/[@]|.com/g, ""), password: signupDetails.password}).subscribe({
                 next: (loginRes:any) => {
