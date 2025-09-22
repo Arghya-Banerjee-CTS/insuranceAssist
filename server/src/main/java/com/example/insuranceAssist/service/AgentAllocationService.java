@@ -32,10 +32,6 @@ public class AgentAllocationService {
 
         agentList = userMasterRepository.findAllByRole(agentRole);
 
-        for(UserMaster agent: agentList){
-            System.out.println(agent.toString());
-        }
-
     }
 
     public UserMaster getAllocatedAgent(){
