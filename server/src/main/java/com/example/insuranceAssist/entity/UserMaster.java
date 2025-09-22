@@ -71,43 +71,4 @@ public class UserMaster {
         this.role = role;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public LocalDate getDob() {
-        return dob;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public Long getPhone() {
-        return phone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public RoleMaster getRole() {
-        return role;
-    }
 }

@@ -20,8 +20,8 @@ public class AuthorizationLog {
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "policy_id", nullable = false)
-    private PolicyMaster policy;
+    @JoinColumn(name = "claim_id", nullable = false)
+    private Authorization claim;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "prev_status")
@@ -34,8 +34,8 @@ public class AuthorizationLog {
     @Column(nullable = false)
     private LocalDateTime timestamp;
 
-    public AuthorizationLog(PolicyMaster policy, StatusTypeMaster prevStatus, StatusTypeMaster currStatus, LocalDateTime timestamp) {
-        this.policy = policy;
+    public AuthorizationLog(Authorization claim, StatusTypeMaster prevStatus, StatusTypeMaster currStatus, LocalDateTime timestamp) {
+        this.claim = claim;
         this.prevStatus = prevStatus;
         this.currStatus = currStatus;
         this.timestamp = timestamp;
