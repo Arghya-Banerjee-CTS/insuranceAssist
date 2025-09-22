@@ -38,49 +38,50 @@ export class ClientRegisterPolicy {
 
   plans: PlanDetails[] = [
     {
-      id: 0,
-      name: 'Basic',
-      basePremium: 1000,
-      coverage: '₹1,00,000',
-      proceduresInsured: 'General Consultation, Diagnostics',
-      deductible: 500,
-      premiumPerDependent: 200
-    },
-    {
       id: 1,
-      name: 'Bronze',
-      basePremium: 2000,
-      coverage: '₹2,50,000',
-      proceduresInsured: 'General + Outpatient',
-      deductible: 400,
-      premiumPerDependent: 350
+      name: 'Gold',
+      basePremium: 12500,
+      coverage: '₹5,00,000',
+      proceduresInsured: 'Regular healthcare users',
+      deductible: 4000,
+      premiumPerDependent: 3100 
     },
-    {
+    {			
       id: 2,
       name: 'Silver',
-      basePremium: 3500,
-      coverage: '₹5,00,000',
-      proceduresInsured: 'General + Outpatient + Dental',
-      deductible: 300,
-      premiumPerDependent: 500
+      basePremium: 9200,
+      coverage: '₹2,50,000',
+      proceduresInsured: 'Families with occasional care',
+      deductible: 6000,
+      premiumPerDependent: 2300
     },
-    {
+    {	
       id: 3,
-      name: 'Gold',
-      basePremium: 5000,
+      name: 'Bronze',
+      basePremium: 7500,
       coverage: '₹10,00,000',
-      proceduresInsured: 'All Silver + Maternity',
-      deductible: 200,
-      premiumPerDependent: 700
+      proceduresInsured: 'Young, healthy individuals',
+      deductible: 8000,
+      premiumPerDependent: 700			
+      
+    },
+    {			
+      id: 4,
+      name: 'Basic',
+      basePremium: 6800,
+      coverage: '₹5,00,000',
+      proceduresInsured: 'General Consultation',
+      deductible: 10000,
+      premiumPerDependent: 1700
     },
     {
-      id: 4,
+      id: 5,
       name: 'Platinum',
-      basePremium: 8000,
+      basePremium: 14000,
       coverage: '₹20,00,000',
-      proceduresInsured: 'All Gold + International',
-      deductible: 100,
-      premiumPerDependent: 1000
+      proceduresInsured: 'Chronic conditions, seniors',
+      deductible: 2000,
+      premiumPerDependent: 3700
     }
   ];
   selectedPlan: PlanDetails | undefined;

@@ -15,17 +15,17 @@ export class ClientOverview {
   http = inject(HttpClient);
   // router = inject(Router);
 
-  hospital(){
-    console.log("hospital called");
-    this.http.get( `${environment.apiUrl}/private/hospital/get`).subscribe({
-      next: (response:any) => {
-        console.log(response);
-        },
-      error: (error) => {
-        alert(error.error);
-      }
-    });
-  }
+  // hospital(){
+  //   console.log("hospital called");
+  //   this.http.get( `${environment.apiUrl}/private/hospital/get`).subscribe({
+  //     next: (response:any) => {
+  //       console.log(response);
+  //       },
+  //     error: (error) => {
+  //       alert(error.error);
+  //     }
+  //   });
+  // }
   
 
   
