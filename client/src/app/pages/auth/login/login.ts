@@ -3,7 +3,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { environment } from '../../../../environments/environment.development';
-import { LoginService } from '../../../core/services/login';
+import { LoginService } from '../../../core/services/api/login/login';
 
 
 @Component({
