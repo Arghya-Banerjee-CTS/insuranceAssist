@@ -1,0 +1,68 @@
+import { Routes } from '@angular/router';
+import { Auth } from './pages/auth/auth';
+import { Login } from './pages/auth/login/login';
+import { Signup } from './pages/auth/signup/signup';
+import { Layout } from './pages/layout/layout';
+import { Dashboard } from './pages/dashboard/dashboard';
+import { AgentDashboard } from './pages/dashboard/agent/agent-dashboard';
+import { ClientDashboard } from './pages/dashboard/client/client-dashboard';
+import { ClientRegisterPolicy } from './pages/auth/signup/client-register-policy/client-register-policy';
+import { ClientRegisterDependents } from './pages/auth/signup/client-register-dependents/client-register-dependents';
+
+import { Profile } from './pages/profile/profile';
+import { AgentProfile } from './pages/agent-profile/agent-profile';
+export const routes: Routes = [
+    // {
+    //     path:'',
+    //     redirectTo: 'login',
+    //     pathMatch: 'full'
+    // },
+    // {
+    //     path: 'login',
+    //     component: Login
+    // },
+    {
+        path:'',
+        redirectTo: 'auth',
+        pathMatch: 'full'
+    },
+    {
+        path: 'auth',
+        component: Auth
+    },
+    {
+        path: 'auth/dependents-nomination',
+        component: ClientRegisterDependents
+    },
+    {
+        path: 'auth/signup',
+        component: Signup
+    },
+    {
+        path: 'auth/policy-plan',
+        component: ClientRegisterPolicy
+    },
+    {
+        path: '',
+        component:Layout,
+        children: [
+            {
+                path:'dashboard/client',
+                component: ClientDashboard
+            },
+            {
+                path: 'dashboard/agent',
+                component: AgentDashboard
+            }]    
+    },
+    // Temporary routing for client profile page.
+    {
+        path: 'profile/client',
+        component: Profile
+    },
+    // Temporary routing for agent profile page.
+    {
+        path: 'profile/agent',
+        component: AgentProfile
+    }
+];
