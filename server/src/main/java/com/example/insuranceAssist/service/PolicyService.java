@@ -52,7 +52,7 @@ public class PolicyService {
                 policy.getStartDate(),
                 policy.getEndDate(),
                 policy.getPremium(),
-                policy.getRemainingCovergae()
+                policy.getRemainingCoverage()
         );
 
     }
@@ -107,7 +107,7 @@ public class PolicyService {
                 policy.getStartDate(),
                 policy.getEndDate(),
                 policy.getPremium(),
-                policy.getRemainingCovergae()
+                policy.getRemainingCoverage()
         );
 
     }
@@ -142,6 +142,28 @@ public class PolicyService {
         }
 
         return response;
+
+    }
+
+    public PolicyTypeResponseDTO getPolicyTypeByClient(UUID clientId) throws ClientNotFoundException {
+
+        UserMaster client = userMasterRepository.findById(clientId)
+                .orElseThrow(() -> new ClientNotFoundException("Client not found with Id: " + clientId));
+
+        PolicyMaster policy = policyMasterRepository.findByClient(client);
+
+        PolicyTypeMaster policyType = policy.getPolicyType();
+
+        return new PolicyTypeResponseDTO(
+                policyType.getId(),
+                policyType.getTier(),
+                policyType.getPremiumBase(),
+                policyType.getPremiumPerDependent(),
+                policyType.getCoverage(),
+                policyType.getDeductible(),
+                policyType.getInsurerPayPercentage(),
+                policyType.getNotes()
+        );
 
     }
 }
