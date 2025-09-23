@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { ClientNewClaim } from './new-claim/client-new-claim/client-new-claim';
 import { ClientClaimHistory } from './claim-history/client-claim-history/client-claim-history';
 import { NetworkHospitals } from './network-hospitals/network-hospitals/network-hospitals';
+import { HospitalService } from '../../../core/services/api/hospital/hospital-service';
 
 @Component({
   selector: 'app-client-dashboard',
@@ -16,10 +17,28 @@ import { NetworkHospitals } from './network-hospitals/network-hospitals/network-
 export class ClientDashboard {
 
   http = inject(HttpClient);
+
+  private hospitalService = inject(HospitalService);
+    
+  hospitalList: any[] = [];
   
   activeTab: 'overview' | 'new-claim' | 'history' | 'hospitals' = 'overview';
 
   setTab(tab: 'overview' | 'new-claim' | 'history' | 'hospitals') {
     this.activeTab = tab;
   }
+
+  ngOnInit(): void{
+    this.hospitalService.onGetAllHospitals().subscribe({
+      next: (result: any) => {
+        this.hospitalList = result;
+      },
+      error: (error: any) => {
+        console.error(error.message);
+      }
+    });
+    
+    
+  }
+
 }

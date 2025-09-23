@@ -1,9 +1,9 @@
 package com.example.insuranceAssist.service;
 
-import com.example.insuranceAssist.exception.*;
 import com.example.insuranceAssist.dto.ClaimCreateRequestDTO;
 import com.example.insuranceAssist.dto.ClaimResponseDTO;
 import com.example.insuranceAssist.entity.*;
+import com.example.insuranceAssist.exception.*;
 import com.example.insuranceAssist.repository.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -170,7 +170,7 @@ public class ClaimService {
         authorizationRepository.save(claim);
 
         PolicyMaster policy = claim.getPolicy();
-        policy.setRemainingCovergae(policy.getRemainingCovergae() - claim.getClaimAmount());
+        policy.setRemainingCoverage(policy.getRemainingCoverage() - claim.getClaimAmount());
 
         policyMasterRepository.save(policy);
 
@@ -248,4 +248,5 @@ public class ClaimService {
         return response;
 
     }
+
 }

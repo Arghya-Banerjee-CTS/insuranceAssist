@@ -40,8 +40,8 @@ public class PolicyMaster {
     @Column(precision = 12, nullable = false)
     private Long premium;
 
-    @Column(name = "remaining_covergae")
-    private Long remainingCovergae;
+    @Column(name = "remaining_coverage")
+    private Long remainingCoverage;
 
     @OneToMany(mappedBy = "policy", cascade = CascadeType.ALL)
     @JsonIgnore
