@@ -43,11 +43,7 @@ export class DependentsDetails implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    const clientId = localStorage.getItem('userId');
-    const getUrl = `${environment.apiUrl}/private/dependent/get/${clientId}`;
-    this.http.get<Dependent[]>(getUrl).subscribe(data => {
-      this.dependents = data;
-    });
+    this.loadDependents();
   }
 
   addDependent() {
@@ -95,9 +91,10 @@ export class DependentsDetails implements OnInit {
       };
 
       this.http.post<Dependent>(createUrl, payload).subscribe(newDep => {
-        Object.assign(dep, newDep);
-        dep.editing = false;
-        dep.isNew = false;
+        // Object.assign(dep, newDep);
+        // dep.editing = false;
+        // dep.isNew = false;
+        this.loadDependents();
       });
     } else {
       const updateUrl = `${environment.apiUrl}/private/dependent/update/${dep.id}`;
@@ -124,6 +121,23 @@ export class DependentsDetails implements OnInit {
       dep.editing = false;
     }
   }
+
+  delete(dep: Dependent) {
+    const dependentId = dep.id;
+    const deleteUrl = `${environment.apiUrl}/private/dependent/delete/${dependentId}`;
+    this.http.delete(deleteUrl, { responseType: 'text' }).subscribe(() => {
+      this.loadDependents();
+    });
+  }
+
+  loadDependents() {
+    const clientId = localStorage.getItem('userId');
+    const getUrl = `${environment.apiUrl}/private/dependent/get/${clientId}`;
+    this.http.get<Dependent[]>(getUrl).subscribe(data => {
+      this.dependents = data;
+    });
+  }
+
 
   // getRelationLabel(value: number): string {
   //   const match = this.relationOptions.find(opt => opt.value === value);

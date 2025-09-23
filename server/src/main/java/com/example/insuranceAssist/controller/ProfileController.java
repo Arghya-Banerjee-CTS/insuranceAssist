@@ -1,14 +1,13 @@
 package com.example.insuranceAssist.controller;
 
 import com.example.insuranceAssist.dto.UserDetailsResponseDTO;
+import com.example.insuranceAssist.dto.UserDetailsUpdateRequestDTO;
 import com.example.insuranceAssist.exception.UserNotFoundException;
 import com.example.insuranceAssist.service.ProfileService;
+import org.apache.catalina.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -25,6 +24,12 @@ public class ProfileController {
     @GetMapping("/get/{userId}")
     public ResponseEntity<UserDetailsResponseDTO> getDetails(@PathVariable UUID userId) throws UserNotFoundException {
         UserDetailsResponseDTO response = profileService.getDetails(userId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PutMapping("/update/{userId}")
+    public ResponseEntity<UserDetailsResponseDTO> updateDetails(@PathVariable UUID userId, @RequestBody UserDetailsUpdateRequestDTO request) throws UserNotFoundException {
+        UserDetailsResponseDTO response = profileService.updateDetails(userId, request);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

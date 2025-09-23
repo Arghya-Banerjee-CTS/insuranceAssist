@@ -27,7 +27,7 @@ export class PersonalDetails implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    const clientId = localStorage.getItem('clientId');
+    const clientId = localStorage.getItem('userId');
     const getUrl = `${environment.apiUrl}/private/profile/get/${clientId}`;
     this.http.get<any>(getUrl)
       .subscribe(data => {
@@ -41,9 +41,17 @@ export class PersonalDetails implements OnInit {
     this.temp = { ...this.personal };
   }
   save() {
-    this.http.put('https://api.example.com/profile', this.temp)
-      .subscribe(updated => {
-        this.personal = { ...this.temp };
+    const clientId = localStorage.getItem('userId');
+    const updateUrl = `${environment.apiUrl}/private/profile/update/${clientId}`;
+    
+    const payload = {
+      address: this.temp.address,
+      phone: this.temp.phone
+    };
+
+    this.http.put(updateUrl, payload)
+      .subscribe(updatedPeronalDetails => {
+        Object.assign(this.personal, updatedPeronalDetails);
         this.editing = false;
       });
   }

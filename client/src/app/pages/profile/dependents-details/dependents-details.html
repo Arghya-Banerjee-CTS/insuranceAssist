@@ -52,13 +52,18 @@
       </div>
     </div>
 
-    <div class="actions">
-      <button *ngIf="!dep.editing" (click)="edit(dep)" class="blue-btn">Edit</button>
-      <button *ngIf="dep.editing" (click)="save(dep)" class="blue-btn">Save</button>
-      <button *ngIf="dep.editing" (click)="cancel(dep)" class="cancel-btn">Cancel</button>
+    <div class="actions" style="display: flex; justify-content: space-between;">
+      <div>
+        <button *ngIf="!dep.editing" (click)="edit(dep)" class="blue-btn">Edit</button>
+        <button *ngIf="dep.editing" (click)="save(dep)" class="blue-btn">Save</button>
+        <button *ngIf="dep.editing" (click)="cancel(dep)" class="cancel-btn">Cancel</button>
+      </div>
+      
+      <button *ngIf="!dep.editing" (click)="delete(dep)" class="blue-btn">Delete</button>
     </div>
   </div>
 </div>
 
 <div class="add-btn-container">
   <button class="blue-btn" (click)="addDependent()">Add Dependent</button>
+</div>
