@@ -42,6 +42,12 @@ public class PolicyController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @GetMapping("/get/policyType/{clientId}")
+    public ResponseEntity<PolicyTypeResponseDTO> getPolicyTypeByClient(@PathVariable UUID clientId) throws ClientNotFoundException {
+        PolicyTypeResponseDTO response = policyService. getPolicyTypeByClient(clientId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @PutMapping("/update/{policyId}")
     public ResponseEntity<?> updatePolicy(@PathVariable UUID policyId, @RequestBody PolicyCreateRequestDTO request) throws PolicyNotFoundException, PolicyTypeNotFoundException {
         PolicyResponseDTO response = policyService.updatePolicy(policyId, request);

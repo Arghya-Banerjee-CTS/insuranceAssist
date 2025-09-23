@@ -39,7 +39,6 @@ export class ClientClaimHistory {
       next: (result:any) => {
         this.result = result;
         this.resultDefault = result;
-        console.log(result);
       }
     });
   }
