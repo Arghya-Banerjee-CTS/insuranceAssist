@@ -1,5 +1,9 @@
 <div class="personal-details-grid">
   <div class="detail-item">
+    <label>Username:</label>
+    <span>{{ personal.username }}</span>
+  </div>
+  <div class="detail-item">
     <label>Name:</label>
     <span>{{ personal.name }}</span>
   </div>
@@ -9,7 +13,7 @@
     <input *ngIf="editing" [(ngModel)]="temp.email" />
   </div>
   <div class="detail-item">
-    <label>Date of Birth:</label>
+    <label>DOB:</label>
     <span>{{ personal.dob }}</span>
   </div>
   <div class="detail-item">

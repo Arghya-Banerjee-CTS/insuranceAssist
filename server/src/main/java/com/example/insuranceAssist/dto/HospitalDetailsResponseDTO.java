@@ -1,8 +1,10 @@
 package com.example.insuranceAssist.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class HospitalDetailsResponseDTO {
 
     private String name;
@@ -13,13 +15,4 @@ public class HospitalDetailsResponseDTO {
     private Long clientContactNumber;
     private int network;
 
-    public HospitalDetailsResponseDTO(String name, String address, String email, Double rating, String clientContactEmail, Long clientContactNumber, int network) {
-        this.name = name;
-        this.address = address;
-        this.email = email;
-        this.rating = rating;
-        this.clientContactEmail = clientContactEmail;
-        this.clientContactNumber = clientContactNumber;
-        this.network = network;
-    }
 }

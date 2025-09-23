@@ -1,5 +1,6 @@
 package com.example.insuranceAssist.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
@@ -8,6 +9,7 @@ import java.util.UUID;
 
 @Data
 @RequiredArgsConstructor
+@AllArgsConstructor
 public class PolicyResponseDTO {
 
     private UUID policyId;
@@ -17,12 +19,4 @@ public class PolicyResponseDTO {
     private Long premium;
     private Long remainingCoverage;
 
-    public PolicyResponseDTO(UUID policyId, String tier, LocalDate startDate, LocalDate endDate, Long premium, Long remainingCoverage) {
-        this.policyId = policyId;
-        this.tier = tier;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.premium = premium;
-        this.remainingCoverage = remainingCoverage;
-    }
 }
