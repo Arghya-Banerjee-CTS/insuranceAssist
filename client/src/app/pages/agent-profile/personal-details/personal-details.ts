@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-personal-details',
+  selector: 'app-agent-personal-details',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './personal-details.html',
