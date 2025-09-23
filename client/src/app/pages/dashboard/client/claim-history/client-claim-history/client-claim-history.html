@@ -1,5 +1,90 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-center align-items-center mb-3">
+    <h3 class="fw-bold mb-0 text-center text-primary">Your Claim History</h3>
+  </div>
 
-<div class="card p-4 shadow-sm">
-    <h5>Claim History</h5>
-    <p>View your past insurance claims here.</p>
+  <div class="mb-3 d-flex justify-content-between flex-wrap align-items-center">
+
+  <!-- Status Filters -->
+  <div class="d-flex">
+    <button class="btn me-2" [ngClass]="activeStatus === 'CREATED' ? 'btn-primary text-white' : 'btn-outline-primary'" (click)="filterByStatus('CREATED')">Created</button>
+    <button class="btn me-2" [ngClass]="activeStatus === 'APPROVED' ? 'btn-success text-white' : 'btn-outline-success'" (click)="filterByStatus('APPROVED')">Approved</button>
+    <button class="btn me-2" [ngClass]="activeStatus === 'REJECTED' ? 'btn-danger text-white' : 'btn-outline-danger'" (click)="filterByStatus('REJECTED')">Rejected</button>
+    <button class="btn btn-secondary" (click)="resetStatusFilters()">All Status</button>
+  </div>
+
+  <!-- Claim Type Filters -->
+  <div class="d-flex">
+    <button class="btn me-2" [ngClass]="activeType === 'PRE' ? 'btn-warning text-white' : 'btn-outline-warning'" (click)="filterByType('PRE')">PRE</button>
+    <button class="btn me-2" [ngClass]="activeType === 'POST' ? 'btn-info text-white' : 'btn-outline-info'" (click)="filterByType('POST')">POST</button>
+    <button class="btn btn-dark" (click)="resetTypeFilters()">All Types</button>
+  </div>
+
+  <!-- Date Range Filter -->
+  <div class="d-flex align-items-center gap-2">
+    <label class="fw-semibold">From:</label>
+    <input type="date" [(ngModel)]="filterStartDate" (change)="applyFilters()" class="form-control form-control-sm" style="width:auto;">
+    <label class="fw-semibold">To:</label>
+    <input type="date" [(ngModel)]="filterEndDate" (change)="applyFilters()" class="form-control form-control-sm" style="width:auto;">
+  </div>
+
+  <!-- Clear Filters Icon Button -->
+  <div>
+    <button class="btn btn-sm btn-outline-danger" (click)="resetFilters()" title="Clear Filters">✖</button>
+  </div>
+
+</div>
+
+<!-- Search Bar Row -->
+<div class="mb-3">
+  <input type="text"
+         [(ngModel)]="filterSearchTerm"
+         placeholder="Search claims..."
+         class="form-control"
+         style="width: 100%;"
+         (input)="applyFilters()">
+</div>
+
+
+
+  @if (!result) {
+    <div class="alert alert-info rounded shadow-sm">
+      No claims loaded yet.
+    </div>
+  }
+  @else {
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped table-hover align-middle rounded shadow-sm overflow-hidden">
+        <thead class="bg-primary text-white">
+          <tr>
+            <th>Open Date</th>
+            <th>Procedure Notes</th>
+            <th>Claim Type</th>
+            <th>Status</th>
+            <th>Claim Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (c of result; track c.claimId) {
+            <tr>
+              <td>{{ c.openDate | date: 'medium' }}</td>
+              <td>{{ c.procedureNotes }}</td>
+              <td>{{ c.claimType }}</td>
+              <td>
+                <span class="badge text-white"
+                  [ngClass]="{
+                    'bg-primary': c.status === 'CREATED',
+                    'bg-success': c.status === 'APPROVED',
+                    'bg-danger': c.status === 'REJECTED'
+                  }">
+                  {{ c.status }}
+                </span>
+              </td>
+              <td class="fw-semibold">{{ c.claimAmount | currency:'INR':'symbol' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
 </div>
