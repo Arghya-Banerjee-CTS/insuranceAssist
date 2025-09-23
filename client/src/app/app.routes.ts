@@ -9,6 +9,8 @@ import { ClientDashboard } from './pages/dashboard/client/client-dashboard';
 import { ClientRegisterPolicy } from './pages/auth/signup/client-register-policy/client-register-policy';
 import { ClientRegisterDependents } from './pages/auth/signup/client-register-dependents/client-register-dependents';
 
+import { Profile } from './pages/profile/profile';
+import { AgentProfile } from './pages/agent-profile/agent-profile';
 export const routes: Routes = [
     // {
     //     path:'',
@@ -52,5 +54,15 @@ export const routes: Routes = [
                 path: 'dashboard/agent',
                 component: AgentDashboard
             }]    
+    },
+    // Temporary routing for client profile page.
+    {
+        path: 'profile/client',
+        component: Profile
+    },
+    // Temporary routing for agent profile page.
+    {
+        path: 'profile/agent',
+        component: AgentProfile
     }
 ];

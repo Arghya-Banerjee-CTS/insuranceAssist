@@ -5,9 +5,7 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
   if (req.url.includes('/api/v1/public/login')||req.url.includes('/api/v1/public/register')) {
     return next(req);
   }
-  debugger;
   const token = localStorage.getItem('token');
-  debugger;
   // const newReq = req.clone({
   //   setHeaders: {
   //     Authorization: `Bearer ${token}`
@@ -15,9 +13,7 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
 
   const newReq = req.clone({
      headers: req.headers.set('Authorization', `Bearer ${token}`),
-  
   })
-  debugger;
   ;
   return next(newReq) ;
 };
