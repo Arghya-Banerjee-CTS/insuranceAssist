@@ -3,21 +3,21 @@
     <h3 class="fw-bold mb-0 text-center text-primary">Your Claim History</h3>
   </div>
 
-  <div class="mb-3 d-flex justify-content-evenly flex-wrap align-items-center">
+  <div class="mb-3 d-flex justify-content-between flex-wrap align-items-center">
 
   <!-- Status Filters -->
-  <div class="d-flex gap-2">
-    <button class="btn btn-outline-primary" (click)="filterByStatus('CREATED')">Created</button>
-    <button class="btn btn-outline-success" (click)="filterByStatus('APPROVED')">Approved</button>
-    <button class="btn btn-outline-danger" (click)="filterByStatus('REJECTED')">Rejected</button>
-    <button class="btn btn-secondary" (click)="resetFilters()">All Status</button>
+  <div class="d-flex">
+    <button class="btn me-2" [ngClass]="activeStatus === 'CREATED' ? 'btn-primary text-white' : 'btn-outline-primary'" (click)="filterByStatus('CREATED')">Created</button>
+    <button class="btn me-2" [ngClass]="activeStatus === 'APPROVED' ? 'btn-success text-white' : 'btn-outline-success'" (click)="filterByStatus('APPROVED')">Approved</button>
+    <button class="btn me-2" [ngClass]="activeStatus === 'REJECTED' ? 'btn-danger text-white' : 'btn-outline-danger'" (click)="filterByStatus('REJECTED')">Rejected</button>
+    <button class="btn btn-secondary" (click)="resetStatusFilters()">All Status</button>
   </div>
 
   <!-- Claim Type Filters -->
-  <div class="d-flex gap-2">
-    <button class="btn btn-outline-warning" (click)="filterByType('PRE')">PRE</button>
-    <button class="btn btn-outline-info" (click)="filterByType('POST')">POST</button>
-    <button class="btn btn-dark" (click)="resetFilters()">All Types</button>
+  <div class="d-flex">
+    <button class="btn me-2" [ngClass]="activeType === 'PRE' ? 'btn-warning text-white' : 'btn-outline-warning'" (click)="filterByType('PRE')">PRE</button>
+    <button class="btn me-2" [ngClass]="activeType === 'POST' ? 'btn-info text-white' : 'btn-outline-info'" (click)="filterByType('POST')">POST</button>
+    <button class="btn btn-dark" (click)="resetTypeFilters()">All Types</button>
   </div>
 
   <!-- Date Range Filter -->
@@ -34,6 +34,17 @@
   </div>
 
 </div>
+
+<!-- Search Bar Row -->
+<div class="mb-3">
+  <input type="text"
+         [(ngModel)]="filterSearchTerm"
+         placeholder="Search claims..."
+         class="form-control"
+         style="width: 100%;"
+         (input)="applyFilters()">
+</div>
+
 
 
   @if (!result) {
