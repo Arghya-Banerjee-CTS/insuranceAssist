@@ -1,10 +1,13 @@
 package com.example.insuranceAssist.service;
 
-import com.example.insuranceAssist.exception.*;
 import com.example.insuranceAssist.dto.ClaimCreateRequestDTO;
 import com.example.insuranceAssist.dto.ClaimResponseDTO;
 import com.example.insuranceAssist.entity.*;
+import com.example.insuranceAssist.exception.*;
 import com.example.insuranceAssist.repository.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -167,7 +170,7 @@ public class ClaimService {
         authorizationRepository.save(claim);
 
         PolicyMaster policy = claim.getPolicy();
-        policy.setRemainingCovergae(policy.getRemainingCovergae() - claim.getClaimAmount());
+        policy.setRemainingCoverage(policy.getRemainingCoverage() - claim.getClaimAmount());
 
         policyMasterRepository.save(policy);
 
@@ -195,6 +198,54 @@ public class ClaimService {
     public void deleteClaim(UUID claimId) {
 
         authorizationRepository.deleteById(claimId);
+
+    }
+
+    public Page<ClaimResponseDTO> getClaimByAgentWithPagination(UUID agentId, int offset, int pageSize) throws AgentNotFoundException {
+
+        UserMaster agent = userMasterRepository.findById(agentId)
+                .orElseThrow(() -> new AgentNotFoundException("Agent not found with id: " + agentId));
+
+        Pageable pageable = PageRequest.of(offset, pageSize);
+
+        Page<Authorization> claims = authorizationRepository.findAllByAgent(agent, pageable);
+
+        Page<ClaimResponseDTO> response = claims
+                .map(claim -> new ClaimResponseDTO(
+                        claim.getId(),
+                        claim.getPolicy().getPolicyId(),
+                        claim.getOpenDate(),
+                        claim.getProcedureNotes(),
+                        claim.getClaimType().getClaimType(),
+                        claim.getStatus().getStatusType(),
+                        claim.getClaimAmount()
+                ));
+
+        return response;
+
+    }
+
+    public Page<ClaimResponseDTO> getClaimByClientWithPagination(UUID clientId, int offset, int pageSize) throws AgentNotFoundException {
+
+        UserMaster client = userMasterRepository.findById(clientId)
+                .orElseThrow(() -> new AgentNotFoundException("Agent not found with id: " + clientId));
+
+        Pageable pageable = PageRequest.of(offset, pageSize);
+
+        Page<Authorization> claims = authorizationRepository.findAllByClient(client, pageable);
+
+        Page<ClaimResponseDTO> response = claims
+                .map(claim -> new ClaimResponseDTO(
+                        claim.getId(),
+                        claim.getPolicy().getPolicyId(),
+                        claim.getOpenDate(),
+                        claim.getProcedureNotes(),
+                        claim.getClaimType().getClaimType(),
+                        claim.getStatus().getStatusType(),
+                        claim.getClaimAmount()
+                ));
+
+        return response;
 
     }
 

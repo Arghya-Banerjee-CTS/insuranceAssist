@@ -4,6 +4,7 @@ import com.example.insuranceAssist.dto.ClaimCreateRequestDTO;
 import com.example.insuranceAssist.dto.ClaimResponseDTO;
 import com.example.insuranceAssist.exception.*;
 import com.example.insuranceAssist.service.ClaimService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ public class ClaimController {
         this.claimService = claimService;
     }
 
+//    @PreAuthorize("hasRole('CLIENT')")
     @PostMapping("/create")
     public ResponseEntity<UUID> createClaim(@RequestBody ClaimCreateRequestDTO request) throws ClientNotFoundException, StatusTypeNotFoundException, ClaimTypeNotFoundException {
         UUID claimId = claimService.createClaim(request);
@@ -39,9 +41,21 @@ public class ClaimController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/get/{clientId}")
+    @GetMapping("/get/agent/{agentId}/{offset}/{pageSize}")
+    public ResponseEntity<Page<ClaimResponseDTO>> getClaimsByAgentWithPagination(@PathVariable UUID agentId, @PathVariable int offset, @PathVariable int pageSize) throws AgentNotFoundException {
+        Page<ClaimResponseDTO> response = claimService.getClaimByAgentWithPagination(agentId, offset, pageSize);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/get/client/{clientId}")
     public ResponseEntity<List<ClaimResponseDTO>> getClaimByClient(@PathVariable UUID clientId) throws ClientNotFoundException {
         List<ClaimResponseDTO> response = claimService.getClaimByClient(clientId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/get/client/{clientId}/{offset}/{pageSize}")
+    public ResponseEntity<?> getClaimByClientWithPagination(@PathVariable UUID clientId, @PathVariable int offset, @PathVariable int pageSize) throws AgentNotFoundException {
+        Page<ClaimResponseDTO> response = claimService.getClaimByClientWithPagination(clientId, offset, pageSize);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
