@@ -52,7 +52,7 @@ public class PolicyService {
                 policy.getStartDate(),
                 policy.getEndDate(),
                 policy.getPremium(),
-                policy.getRemainingCovergae()
+                policy.getRemainingCoverage()
         );
 
     }
@@ -107,7 +107,7 @@ public class PolicyService {
                 policy.getStartDate(),
                 policy.getEndDate(),
                 policy.getPremium(),
-                policy.getRemainingCovergae()
+                policy.getRemainingCoverage()
         );
 
     }
