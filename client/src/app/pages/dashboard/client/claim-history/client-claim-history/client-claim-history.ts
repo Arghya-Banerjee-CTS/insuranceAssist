@@ -17,8 +17,7 @@ import { FormsModule } from '@angular/forms';
 export class ClientClaimHistory {
 
   private claimService = inject(Claim);
-  // private clientId: any = localStorage.getItem('userId');
-  private clientId: any = '61d3bc4e-d308-4095-9b01-e77c6fdc7f6b';
+  private clientId: any = localStorage.getItem('userId');
 
   ngOnInit(){
     this.onClaimHistory();
