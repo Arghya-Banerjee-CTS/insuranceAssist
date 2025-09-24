@@ -11,7 +11,7 @@ public class PolicyTypeResponseDTO {
     private String tier;
     private int premiumBase;
     private int premiumPerDependent;
-    private int coverage;
+    private Long coverage;
     private int deductible;
     private int insurerPayPercentage;
     private String notes;

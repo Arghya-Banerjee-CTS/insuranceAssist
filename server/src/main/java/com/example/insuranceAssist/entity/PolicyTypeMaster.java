@@ -22,7 +22,7 @@ public class PolicyTypeMaster {
     private int premiumPerDependent;
 
     @Column(nullable = false)
-    private int coverage;
+    private Long coverage;
 
     private int deductible;
 
