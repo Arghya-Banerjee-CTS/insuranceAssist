@@ -12,4 +12,10 @@ export class Claim {
   onGetClaimHistory(clientId: string) : any {
     return this.http.get(`${environment.apiUrl}/private/claim/get/client/${clientId}`)
   }
+
+  onCreateClaim(claimDetails: any) : any {
+    return this.http.post(`${environment.apiUrl}/private/claim/create`, claimDetails)
+  }
+
+
 }

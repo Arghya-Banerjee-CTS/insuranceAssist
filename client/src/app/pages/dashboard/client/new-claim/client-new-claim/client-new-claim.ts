@@ -4,6 +4,7 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { environment } from '../../../../../../environments/environment.development';
+import { Claim } from '../../../../../core/services/api/claim/claim';
 
 @Component({
   selector: 'app-client-new-claim',
@@ -13,9 +14,9 @@ import { environment } from '../../../../../../environments/environment.developm
 })
 export class ClientNewClaim {
 
-  private router = inject(Router);
-  private http = inject(HttpClient);
   private fb = inject(FormBuilder);
+  private claimService = inject(Claim);
+  private http = inject(HttpClient);
 
   newClaimForm: FormGroup = new FormGroup({});
 
@@ -55,13 +56,14 @@ export class ClientNewClaim {
         claimAmount: this.newClaimForm.get('claimAmount')?.value
       };
 
+      console.log(claimDetails);
 
       if(this.newClaimForm.valid){
-        this.http.post(`${environment.apiUrl}/private/claim/create`, claimDetails ).subscribe({
-          next: (res) => {
+        this.claimService.onCreateClaim(claimDetails).subscribe({
+          next: (res: any) => {
             alert('Claim created successfully!');
           },
-          error: (err) => {
+          error: (err: any) => {
             console.error('Error creating claim:', err);  
             alert('Failed to create claim. Please try again.');
           }
