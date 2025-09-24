@@ -53,16 +53,15 @@ export const routes: Routes = [
             {
                 path: 'dashboard/agent',
                 component: AgentDashboard
+            },
+            {
+                path: 'profile/client',
+                component: Profile
+            },
+            
+            {
+                path: 'profile/agent',
+                component: AgentProfile
             }]    
-    },
-    // Temporary routing for client profile page.
-    {
-        path: 'profile/client',
-        component: Profile
-    },
-    // Temporary routing for agent profile page.
-    {
-        path: 'profile/agent',
-        component: AgentProfile
     }
 ];
