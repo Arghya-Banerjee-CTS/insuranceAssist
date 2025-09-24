@@ -5,3 +5,14 @@
 .navbar-brand {
     font-weight: 600;
 }
+.profile-pic {
+  width: 35px; /* Adjust this size to your preference */
+  height: 35px; /* Must match the width for a perfect circle */
+  border: 2px solid #007bff; /* Border color */
+  object-fit: cover;
+}
+.profile-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -22,4 +22,16 @@ export class Layout {
     this.router.navigate(['/auth']);
 
   }
+
+  onProfileClick(){
+    const userType = localStorage.getItem('role');
+    
+    if(userType === 'CLIENT'){
+      this.router.navigate(['/profile/client']);
+    } else if(userType === 'AGENT'){
+      this.router.navigate(['/profile/agent']);
+    } else {
+      this.router.navigate(['']);
+    }
+  }
 }
