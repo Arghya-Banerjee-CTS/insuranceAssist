@@ -1,6 +1,6 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<div class="container mt-4">
+<div class="container mt-4 p-4 rounded-lg shadow-lg bg-white">
     <h3 class="mb-3">Claim Summary</h3>
     <table class="table table-bordered table-hover table-striped align-middle">
         <thead class="table-dark">
@@ -17,11 +17,18 @@
         <tbody>
             @for(claim of Claims; track $index){
                 <tr>
-                    <td>{{claim.openDate | date:'shortDate'}}</td>
+                    <td>{{claim.openDate | date:'long'}}</td>
                     <td>{{claim.procedureNotes}}</td>
                     <td><span class="badge bg-info text-dark">{{claim.claimType}}</span></td>
-                    <td><span class="badge bg-warning text-dark">{{claim.status}}</span></td>
-                    <td>${{claim.claimAmount}}</td>
+                         <td><span class="badge" [ngClass]="{
+                            'bg-success': claim.status === 'APROVED',
+                            'bg-primary': claim.status === 'CREATED',
+                            'bg-danger': claim.status === 'REJECTED',
+                            'bg-warning text-dark': claim.status === 'REVIEW'
+                        }">
+                            {{claim.status}}
+                        </span></td>
+                    <td>Rs.{{claim.claimAmount}}</td>
                     <td>
                         <select #actionSelect class="form-select form-select-sm">
                             <option value="2">REVIEW</option>

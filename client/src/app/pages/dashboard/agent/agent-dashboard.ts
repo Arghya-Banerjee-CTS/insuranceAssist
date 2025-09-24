@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { Overview } from './overview/overview';
 import { ClaimApproval } from "./claim-approval/claim-approval";
+import { ClaimHistory } from './claim-history/claim-history';
 
 @Component({
   selector: 'app-agent',
-  imports: [Overview, ClaimApproval],
+  imports: [Overview, ClaimApproval,ClaimHistory],
   templateUrl: './agent.html',
   styleUrl: './agent.css'
 })
