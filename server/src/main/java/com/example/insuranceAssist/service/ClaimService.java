@@ -170,7 +170,7 @@ public class ClaimService {
         authorizationRepository.save(claim);
 
         PolicyMaster policy = claim.getPolicy();
-        policy.setRemainingCovergae(policy.getRemainingCovergae() - claim.getClaimAmount());
+        policy.setRemainingCoverage(policy.getRemainingCoverage() - claim.getClaimAmount());
 
         policyMasterRepository.save(policy);
 
