@@ -2,15 +2,17 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../environments/environment.development';
 
 interface Dependent {
-  id?: string;
-  name: string;
-  dob: string;
-  contact: string;
-  address: string;
-  relation: string;
-  gender: string;
+  id?: any;
+  name: any;
+  dob: any;
+  phone: any;
+  address: any;
+  relationName: any;
+  gender: any;
+  email: any;
   editing?: boolean;
   temp?: Partial<Dependent>;
   isNew?: boolean;
@@ -26,32 +28,43 @@ interface Dependent {
 export class DependentsDetails implements OnInit {
   dependents: Dependent[] = [];
 
+  relationOptions = [
+    { label: 'Father', value: 1 },
+    { label: 'Mother', value: 2 },
+    { label: 'Brother', value: 3 },
+    { label: 'Sister', value: 4 },
+    { label: 'Wife', value: 5 },
+    { label: 'Husband', value: 6 },
+    { label: 'Son', value: 7 },
+    { label: 'Daughter', value: 8 },
+    { label: 'Gaurdian', value: 9 },
+  ];
+
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    this.http.get<Dependent[]>('https://api.example.com/dependents')
-      .subscribe(data => {
-        this.dependents = data;
-      });
+    this.loadDependents();
   }
 
   addDependent() {
     this.dependents.push({
       name: '',
       dob: '',
-      contact: '',
+      phone: '',
       address: '',
-      relation: '',
+      relationName: '',
       gender: '',
+      email: '',
       editing: true,
       isNew: true,
       temp: {
         name: '',
         dob: '',
-        contact: '',
+        phone: '',
         address: '',
-        relation: '',
-        gender: ''
+        relationName: '',
+        gender: '',
+        email: ''
       }
     });
   }
@@ -62,19 +75,42 @@ export class DependentsDetails implements OnInit {
   }
 
   save(dep: Dependent) {
+    const clientId = localStorage.getItem('userId');
+
     if (dep.isNew) {
-      this.http.post<Dependent>('https://api.example.com/dependents', dep.temp)
-        .subscribe(newDep => {
-          Object.assign(dep, newDep);
-          dep.editing = false;
-          dep.isNew = false;
-        });
+      const createUrl = `${environment.apiUrl}/private/dependent/create`;
+      const payload = {
+        name: dep.temp?.name,
+        dob: dep.temp?.dob,
+        phone: dep.temp?.phone,
+        address: dep.temp?.address,
+        relationTypeId: dep.temp?.relationName,
+        gender: dep.temp?.gender,
+        email: dep.temp?.email,
+        clientId: clientId
+      };
+
+      this.http.post<Dependent>(createUrl, payload).subscribe(newDep => {
+        // Object.assign(dep, newDep);
+        // dep.editing = false;
+        // dep.isNew = false;
+        this.loadDependents();
+      });
     } else {
-      this.http.put<Dependent>(`https://api.example.com/dependents/${dep.id}`, dep.temp)
-        .subscribe(updatedDep => {
-          Object.assign(dep, updatedDep);
-          dep.editing = false;
-        });
+      const updateUrl = `${environment.apiUrl}/private/dependent/update/${dep.id}`;
+      const payload = {
+        name: dep.temp?.name,
+        dob: dep.temp?.dob,
+        phone: dep.temp?.phone,
+        address: dep.temp?.address,
+        gender: dep.temp?.gender,
+        email: dep.temp?.email
+      };
+
+      this.http.put<Dependent>(updateUrl, payload).subscribe(updatedDep => {
+        Object.assign(dep, updatedDep);
+        dep.editing = false;
+      });
     }
   }
 
@@ -85,4 +121,26 @@ export class DependentsDetails implements OnInit {
       dep.editing = false;
     }
   }
+
+  delete(dep: Dependent) {
+    const dependentId = dep.id;
+    const deleteUrl = `${environment.apiUrl}/private/dependent/delete/${dependentId}`;
+    this.http.delete(deleteUrl, { responseType: 'text' }).subscribe(() => {
+      this.loadDependents();
+    });
+  }
+
+  loadDependents() {
+    const clientId = localStorage.getItem('userId');
+    const getUrl = `${environment.apiUrl}/private/dependent/get/${clientId}`;
+    this.http.get<Dependent[]>(getUrl).subscribe(data => {
+      this.dependents = data;
+    });
+  }
+
+
+  // getRelationLabel(value: number): string {
+  //   const match = this.relationOptions.find(opt => opt.value === value);
+  //   return match ? match.label : 'Unknown';
+  // }
 }

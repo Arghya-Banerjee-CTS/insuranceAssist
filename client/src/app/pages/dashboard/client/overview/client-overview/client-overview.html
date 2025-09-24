@@ -1,8 +1,81 @@
+<!-- overview.component.html -->
+<div class="container my-5">
 
-<div class="card p-4 shadow-sm">
+  <!-- Profile box -->
+  <div class="card border-0 shadow-lg rounded-4 mb-4">
     <div class="card-body">
-      <h5 class="card-title">Welcome, Client</h5>
-      <p class="card-text">Here you can find your network hostpitals and apply for insurance claims.</p>
+      <div class="row align-items-center g-4">
+        <!-- Client details -->
+        <div class="col-md-8">
+          <h2 class="fw-bold mb-1">{{ clientDetails.name }}</h2>
+          <p class="text-secondary mb-4">@{{ clientDetails.username }}</p>
+
+          <h5 class="text-primary fw-semibold">Personal Information</h5>
+          <ul class="list-unstyled mt-3 mb-0">
+            <li class="mb-2"><strong>Gender:</strong> {{ clientDetails.gender === 'M' ? 'Male' : clientDetails.gender === 'F' ? 'Female' : 'N/A' }}</li>
+            <li class="mb-2"><strong>Date of Birth:</strong> {{ clientDetails.dob | date:'longDate' }}</li>
+            <li class="mb-2"><strong>Address:</strong> {{ clientDetails.address }}</li>
+            <li class="mb-2"><strong>Email:</strong> {{ clientDetails.email }}</li>
+            <li class="mb-2"><strong>Phone:</strong> {{ clientDetails.phone }}</li>
+          </ul>
+        </div>
+
+        <!-- Profile image -->
+        <div class="col-md-4 text-md-end text-center">
+          <img
+            src="default-profile-pic.png"
+            alt="Profile photo"
+            class="rounded-circle border border-4 border-primary shadow-sm"
+            style="width: 160px; height: 160px; object-fit: cover;"
+          >
+        </div>
+      </div>
     </div>
-    <!-- <button class="btn btn-primary mt-3" (click)="hospital()"></button> -->
   </div>
+
+  <!-- Policy details box -->
+  <div class="card border-0 shadow-lg rounded-4 mb-4">
+    <div class="card-body">
+      <h5 class="text-primary fw-semibold mb-3">Current Policy</h5>
+      <ul class="list-unstyled mb-4">
+        <li class="mb-2"><strong>Start Date:</strong> {{ policyDetails.startDate | date:'longDate' }}</li>
+        <li class="mb-2"><strong>End Date:</strong> {{ policyDetails.endDate | date:'longDate' }}</li>
+        <li class="mb-2"><strong>Premium:</strong> ₹{{ policyDetails.premium | number }}</li>
+        <li class="mb-2"><strong>Remaining Coverage:</strong> ₹{{ policyDetails.remainingCoverage | number }}</li>
+        <li class="mb-2"><strong>Total Coverage:</strong> ₹{{ policyTypeDetails.coverage | number }}</li>
+      </ul>
+
+      <!-- Coverage slider -->
+      <div class="progress" style="height: 10px;">
+        <div
+          class="progress-bar"
+          role="progressbar"
+          [style.width.%]="(policyDetails.remainingCoverage / policyTypeDetails.coverage) * 100"
+          [ngClass]="{
+            'bg-success': (policyDetails.remainingCoverage / policyTypeDetails.coverage) > 0.6,
+            'bg-warning': (policyDetails.remainingCoverage / policyTypeDetails.coverage) <= 0.6 && (policyDetails.remainingCoverage / policyTypeDetails.coverage) > 0.3,
+            'bg-danger': (policyDetails.remainingCoverage / policyTypeDetails.coverage) <= 0.3
+          }">
+          {{ ((policyDetails.remainingCoverage / policyTypeDetails.coverage) * 100) | number:'1.0-0' }}%
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Policy type details box -->
+  <div class="card border-0 shadow-lg rounded-4">
+    <div class="card-body">
+      <h5 class="text-primary fw-semibold mb-3">Policy Type Details</h5>
+      <ul class="list-unstyled">
+        <li class="mb-2"><strong>Tier:</strong> {{ policyTypeDetails.tier }}</li>
+        <li class="mb-2"><strong>Premium Base:</strong> ₹{{ policyTypeDetails.premiumBase | number }}</li>
+        <li class="mb-2"><strong>Premium Per Dependent:</strong> ₹{{ policyTypeDetails.premiumPerDependent | number }}</li>
+        <li class="mb-2"><strong>Coverage:</strong> ₹{{ policyTypeDetails.coverage | number }}</li>
+        <li class="mb-2"><strong>Deductible:</strong> ₹{{ policyTypeDetails.deductible | number }}</li>
+        <li class="mb-2"><strong>Insurer Pay Percentage:</strong> {{ policyTypeDetails.insurerPayPercentage }}%</li>
+      </ul>
+    </div>
+  </div>
+
+</div>

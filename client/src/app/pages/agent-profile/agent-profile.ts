@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { PersonalDetails } from './personal-details/personal-details';
 import { Location } from '@angular/common';
+import { PersonalDetails } from './personal-details/personal-details';
 
 @Component({
   selector: 'app-agent-profile',

@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { inject, Injectable } from '@angular/core';
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../../../../environments/environment.development';
+import { Client } from '../../../../../core/services/api/client/client';
+import { Policy } from '../../../../../core/services/api/policy/policy';
 
 @Component({
   selector: 'app-client-overview',
@@ -12,23 +12,42 @@ import { environment } from '../../../../../../environments/environment.developm
   styleUrl: './client-overview.css'
 })
 export class ClientOverview {
-  http = inject(HttpClient);
-  // router = inject(Router);
-
-  // hospital(){
-  //   console.log("hospital called");
-  //   this.http.get( `${environment.apiUrl}/private/hospital/get`).subscribe({
-  //     next: (response:any) => {
-  //       console.log(response);
-  //       },
-  //     error: (error) => {
-  //       alert(error.error);
-  //     }
-  //   });
-  // }
   
+  private clientService = inject(Client);
+  private policyService = inject(Policy);
+  private clientId: any = localStorage.getItem('userId');
+  clientDetails: any;
+  policyDetails: any;
+  policyTypeDetails: any;
 
-  
+  ngOnInit(){
+    this.onGetProfileDetails();
+    this.onGetPolicyDetails();
+    this.onGetPolicyTypeDetails();
+  }
 
+  onGetProfileDetails(){
+    this.clientService.onGetProfileDetails(this.clientId).subscribe({
+      next: (result: any)  => {
+        this.clientDetails = result;
+      }
+    });
+  }
+
+  onGetPolicyDetails(){
+    this.policyService.onGetPolicyDetails(this.clientId).subscribe({
+      next: (result: any) => {
+        this.policyDetails = result;
+      }
+    });
+  }
+
+  onGetPolicyTypeDetails(){
+    this.policyService.onGetPolicyTypeDetails(this.clientId).subscribe({
+      next: (result: any) => {
+        this.policyTypeDetails = result;
+      }
+    });
+  }
 
 }

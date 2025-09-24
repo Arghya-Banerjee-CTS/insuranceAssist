@@ -2,9 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../environments/environment.development';
 
 @Component({
-  selector: 'app-personal-details',
+  selector: 'app-agent-personal-details',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './personal-details.html',
@@ -13,19 +14,22 @@ import { HttpClient } from '@angular/common/http';
 export class PersonalDetails implements OnInit {
   editing = false;
   personal = {
+    username: '',
     name: '',
-    email: '',
-    address: '',
+    gender: '',
     dob: '',
-    phone: '',
-    gender: ''
+    address: '',
+    email: '',
+    phone: ''
   };
   temp = { ...this.personal };
 
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    this.http.get<any>('https://api.example.com/profile')
+    const clientId = localStorage.getItem('userId');
+    const getUrl = `${environment.apiUrl}/private/profile/get/${clientId}`;
+    this.http.get<any>(getUrl)
       .subscribe(data => {
         this.personal = data;
         this.temp = { ...data };
@@ -37,9 +41,17 @@ export class PersonalDetails implements OnInit {
     this.temp = { ...this.personal };
   }
   save() {
-    this.http.put('https://api.example.com/profile', this.temp)
-      .subscribe(updated => {
-        this.personal = { ...this.temp };
+    const clientId = localStorage.getItem('userId');
+    const updateUrl = `${environment.apiUrl}/private/profile/update/${clientId}`;
+    
+    const payload = {
+      address: this.temp.address,
+      phone: this.temp.phone
+    };
+
+    this.http.put(updateUrl, payload)
+      .subscribe(updatedPeronalDetails => {
+        Object.assign(this.personal, updatedPeronalDetails);
         this.editing = false;
       });
   }
