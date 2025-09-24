@@ -1,11 +1,13 @@
 package com.example.insuranceAssist.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Data
+@AllArgsConstructor
 public class DependentProfileViewDTO {
 
     private UUID id;
@@ -17,14 +19,4 @@ public class DependentProfileViewDTO {
     private String email;
     private String address;
 
-    public DependentProfileViewDTO(UUID id, String name, String gender, String relationName, LocalDate dob, Long phone, String email, String address) {
-        this.id = id;
-        this.name = name;
-        this.gender = gender;
-        this.relationName = relationName;
-        this.dob = dob;
-        this.phone = phone;
-        this.email = email;
-        this.address = address;
-    }
 }

@@ -6,39 +6,64 @@
         <span *ngIf="!dep.editing">{{ dep.name }}</span>
         <input *ngIf="dep.editing" [(ngModel)]="dep.temp!.name" />
       </div>
+
       <div class="detail-item">
-        <label>Date of Birth:</label>
+        <label>DOB:</label>
         <span *ngIf="!dep.editing">{{ dep.dob }}</span>
         <input *ngIf="dep.editing" [(ngModel)]="dep.temp!.dob" />
       </div>
+
       <div class="detail-item">
         <label>Contact:</label>
-        <span *ngIf="!dep.editing">{{ dep.contact }}</span>
-        <input *ngIf="dep.editing" [(ngModel)]="dep.temp!.contact" />
+        <span *ngIf="!dep.editing">{{ dep.phone }}</span>
+        <input *ngIf="dep.editing" [(ngModel)]="dep.temp!.phone" />
       </div>
+
       <div class="detail-item">
         <label>Address:</label>
         <span *ngIf="!dep.editing">{{ dep.address }}</span>
         <input *ngIf="dep.editing" [(ngModel)]="dep.temp!.address" />
       </div>
+
       <div class="detail-item">
         <label>Relation:</label>
-        <span *ngIf="!dep.editing">{{ dep.relation }}</span>
-        <input *ngIf="dep.editing" [(ngModel)]="dep.temp!.relation" />
+        <ng-container *ngIf="dep.editing && dep.isNew; else showRelation">
+          <select [(ngModel)]="dep.temp!.relationName">
+            <option *ngFor="let option of relationOptions" [value]="option.value">
+              {{ option.label }}
+            </option>
+          </select>
+        </ng-container>
+        <ng-template #showRelation>
+          <span>{{ dep.relationName }}</span>
+        </ng-template>
       </div>
+
       <div class="detail-item">
         <label>Gender:</label>
         <span *ngIf="!dep.editing">{{ dep.gender }}</span>
         <input *ngIf="dep.editing" [(ngModel)]="dep.temp!.gender" />
       </div>
+
+      <div class="detail-item">
+        <label>Email:</label>
+        <span *ngIf="!dep.editing">{{ dep.email }}</span>
+        <input *ngIf="dep.editing" [(ngModel)]="dep.temp!.email" />
+      </div>
     </div>
-    <div class="actions">
-      <button *ngIf="!dep.editing" (click)="edit(dep)" class="blue-btn">Edit</button>
-      <button *ngIf="dep.editing" (click)="save(dep)" class="blue-btn">Save</button>
-      <button *ngIf="dep.editing" (click)="cancel(dep)" class="cancel-btn">Cancel</button>
+
+    <div class="actions" style="display: flex; justify-content: space-between;">
+      <div>
+        <button *ngIf="!dep.editing" (click)="edit(dep)" class="blue-btn">Edit</button>
+        <button *ngIf="dep.editing" (click)="save(dep)" class="blue-btn">Save</button>
+        <button *ngIf="dep.editing" (click)="cancel(dep)" class="cancel-btn">Cancel</button>
+      </div>
+      
+      <button *ngIf="!dep.editing" (click)="delete(dep)" class="blue-btn">Delete</button>
     </div>
   </div>
 </div>
+
 <div class="add-btn-container">
   <button class="blue-btn" (click)="addDependent()">Add Dependent</button>
 </div>
