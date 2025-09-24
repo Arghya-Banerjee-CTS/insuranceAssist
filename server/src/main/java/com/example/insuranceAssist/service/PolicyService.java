@@ -73,6 +73,7 @@ public class PolicyService {
                 request.getStartDate(),
                 request.getEndDate(),
                 prem,
+                policyType.getCoverage(),
                 new ArrayList<Authorization>(),
                 LocalDateTime.now(),
                 LocalDateTime.now(),
