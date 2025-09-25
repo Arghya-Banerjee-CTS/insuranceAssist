@@ -1,17 +1,13 @@
 package com.example.insuranceAssist.service;
 
+import com.example.insuranceAssist.entity.*;
 import com.example.insuranceAssist.exception.ClientNotFoundException;
 import com.example.insuranceAssist.exception.DependentNotFoundException;
 import com.example.insuranceAssist.exception.RelationNotFoundException;
 import com.example.insuranceAssist.dto.DependentCreationRequestDTO;
 import com.example.insuranceAssist.dto.DependentDetailsDTO;
 import com.example.insuranceAssist.dto.DependentProfileViewDTO;
-import com.example.insuranceAssist.entity.DependentMaster;
-import com.example.insuranceAssist.entity.RelationTypeMaster;
-import com.example.insuranceAssist.entity.UserMaster;
-import com.example.insuranceAssist.repository.DependentMasterRepository;
-import com.example.insuranceAssist.repository.RelationTypeMasterRepository;
-import com.example.insuranceAssist.repository.UserMasterRepository;
+import com.example.insuranceAssist.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +27,9 @@ public class DependentService {
     
     @Autowired
     private DependentMasterRepository dependentMasterRepository;
+
+    @Autowired
+    private PolicyMasterRepository policyMasterRepository;
 
     public UUID createDependent(DependentCreationRequestDTO request) throws ClientNotFoundException, RelationNotFoundException {
         
@@ -53,6 +52,13 @@ public class DependentService {
         );
         
         DependentMaster dep = dependentMasterRepository.save(dependentDetails);
+
+        PolicyMaster policy = policyMasterRepository.findByClient(client);
+        PolicyTypeMaster policyTypeMaster = policy.getPolicyType();
+
+        policy.setDependents(policy.getDependents() + 1);
+        policy.setPremium(policy.getPremium() + policyTypeMaster.getPremiumPerDependent());
+
         return dep.getId();
         
     }
@@ -130,7 +136,19 @@ public class DependentService {
 
     }
 
-    public void deleteDependent(UUID dependentId) {
+    public void deleteDependent(UUID dependentId) throws DependentNotFoundException {
+
+        DependentMaster dependent = dependentMasterRepository.findById(dependentId)
+                        .orElseThrow(() -> new DependentNotFoundException("Dependent not found with id: " +  dependentId));
+
+        UserMaster user = dependent.getClient();
+
+        PolicyMaster policy = policyMasterRepository.findByClient(user);
+
+        PolicyTypeMaster policyType = policy.getPolicyType();
+
+        policy.setDependents(policy.getDependents() - 1);
+        policy.setPremium(policy.getPremium() - policyType.getPremiumPerDependent());
 
         dependentMasterRepository.deleteById(dependentId);
 
