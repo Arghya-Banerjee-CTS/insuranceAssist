@@ -35,8 +35,8 @@ export class ClaimApproval implements OnInit{
       next: (claims: Claim[]) => {
         this.Claims = claims;
         this.Claims = this.Claims.filter((claim) => {
-            return (claim.status == "CREATED" || claim.status == "IN REVIEW");
-        })
+          return (claim.status == "CREATED" || claim.status == "IN REVIEW");
+      })
         console.log("Claims loaded:", this.Claims);
       },
       error: (err) => {
