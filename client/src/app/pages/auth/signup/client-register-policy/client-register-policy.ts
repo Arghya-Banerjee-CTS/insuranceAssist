@@ -126,15 +126,17 @@ export class ClientRegisterPolicy {
       this.http.post<{ client_id: number }>(`${environment.apiUrl}/public/register`, {...signupDetails}).subscribe({
         next: (registerRes) => {
           
-              debugger;
-              const clientId = localStorage.getItem('userId');
+              // const clientId = localStorage.getItem('userId');
+              // localStorage.setItem('userId', registerRes.client_id.toString());
 
               this.http.post(`${environment.apiUrl}/public/login`, {username: signupDetails.email.replace(/[@]|.com/g, ""), password: signupDetails.password}).subscribe({
                 next: (loginRes:any) => {
                   if(loginRes && loginRes.token){
                     localStorage.setItem('token', loginRes.token);
+                    localStorage.setItem('role', loginRes.role);
+                    localStorage.setItem('userId', loginRes.userId);
 
-                              // 3. Preparing policy payload
+              const clientId = localStorage.getItem('userId');
               const today = new Date();
               const startDate = today.toISOString().split('T')[0]; // yyyy-mm-dd
               const endDate = new Date(today.getFullYear() + 1, today.getMonth(), today.getDate())
