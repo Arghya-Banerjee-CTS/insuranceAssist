@@ -51,9 +51,9 @@ export class ClaimManagement {
 
   updateClaimStatus(claim: Claim, updatedStatus: string) {
     if (updatedStatus === '2') {
-      claim.status = "Review".toUpperCase();
+      claim.status = "In Review".toUpperCase();
     } else if (updatedStatus === '3') {
-      claim.status = "Aproved".toUpperCase();
+      claim.status = "Approved".toUpperCase();
     } else if (updatedStatus === '4') {
       claim.status = "Rejected".toUpperCase();
     }

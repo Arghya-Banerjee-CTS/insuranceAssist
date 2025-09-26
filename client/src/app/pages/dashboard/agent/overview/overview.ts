@@ -63,9 +63,9 @@ export class Overview implements OnInit {
         this.Claims = element;
         this.totalClients = this.Claims.length;
         // console.log(this.totalClients);
-        const activeArrayList = this.Claims.filter((el) => {
-          el.status === 'IN REVIEW' || el.status === 'CREATED'
-        });
+        const activeArrayList:Claim[] = this.Claims.filter((el) => (
+          el.status == 'IN REVIEW' || el.status === 'CREATED'
+    ));
         this.activeClients = activeArrayList.length;
         console.log(this.activeClients)
         this.totalAmountClaimPassed = this.Claims
