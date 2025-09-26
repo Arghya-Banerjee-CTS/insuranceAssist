@@ -48,4 +48,9 @@ export class ClientRegisterDependents {
       this.router.navigate(['/auth/policy-plan']);
     }
   }
+
+  skipDependents() {
+    localStorage.setItem('dependents', JSON.stringify([]));
+    this.router.navigate(['/auth/policy-plan']);
+  }
 }

@@ -59,6 +59,7 @@
         }
         <!-- </div> -->
         <button type="button" class="btn btn-secondary mb-2" (click)="addDependent()" [disabled]="dependents.length>=4">Add Dependent</button>
+        <button type="button" class="btn btn-outline-secondary w-100 mb-2" (click)="skipDependents()">Skip for now</button>
         <button type="button" class="btn btn-primary w-100" (click)="nextStep()">Continue</button>
     </div>
 </form>
