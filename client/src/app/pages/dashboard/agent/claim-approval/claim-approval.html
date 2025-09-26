@@ -31,9 +31,15 @@
                     <td>Rs.{{claim.claimAmount}}</td>
                     <td>
                         <select #actionSelect class="form-select form-select-sm">
-                            <option value="2">REVIEW</option>
-                            <option value="3">APPROVE</option>
-                            <option value="4">REJECT</option>
+                            @if (claim.status === 'CREATED') {
+                                <option value="2">REVIEW</option>
+                                <option value="3">APPROVE</option>
+                                <option value="4">REJECT</option>
+                            }
+                            @else {
+                                <option value="3">APPROVE</option>
+                                <option value="4">REJECT</option>
+                            }
                         </select>
                     </td>
                     <td>
