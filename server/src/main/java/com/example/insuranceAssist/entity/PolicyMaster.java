@@ -57,6 +57,19 @@ public class PolicyMaster {
     @JsonIgnore
     private PolicyTypeMaster policyType;
 
+    public PolicyMaster(UserMaster client, int dependents, LocalDate startDate, LocalDate endDate, Long premium, Long remainingCoverage, List<Authorization> authorizations, LocalDateTime createdAt, LocalDateTime updatedAt, PolicyTypeMaster policyType) {
+        this.client = client;
+        this.dependents = dependents;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.premium = premium;
+        this.remainingCoverage = remainingCoverage;
+        this.authorizations = authorizations;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.policyType = policyType;
+    }
+
     public PolicyMaster(UserMaster client, int dependents, LocalDate startDate, LocalDate endDate, Long premium, List<Authorization> authorizations, LocalDateTime createdAt, LocalDateTime updatedAt, PolicyTypeMaster policyType) {
         this.client = client;
         this.dependents = dependents;

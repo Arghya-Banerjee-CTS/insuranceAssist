@@ -1,0 +1,34 @@
+<div class="container mt-4 p-4 rounded-lg shadow-lg bg-white">
+        <h3 class="text-xl font-semibold mb-4 text-gray-800">Claim History</h3>
+        <div class="overflow-x-auto">
+            <table class="table table-bordered table-hover table-striped align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Open Date</th>
+                        <th scope="col">Procedure Notes</th>
+                        <th scope="col">Claim Type</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Claim Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for(claim of Claims;track $index){
+                        <tr>
+                        <td>{{claim.openDate | date:'long'}}</td>
+                        <td>{{claim.procedureNotes}}</td>
+                        <td><span class="badge bg-info text-dark">{{claim.claimType}}</span></td>
+                         <td><span class="badge" [ngClass]="{
+                            'bg-success': claim.status === 'APROVED',
+                            'bg-primary': claim.status === 'CREATED',
+                            'bg-danger': claim.status === 'REJECTED',
+                            'bg-warning text-dark': claim.status === 'REVIEW'
+                        }">
+                            {{claim.status}}
+                        </span></td>
+                         <td>Rs.{{claim.claimAmount}}</td>
+                         </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>

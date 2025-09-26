@@ -50,7 +50,7 @@ public class DependentController {
     }
 
     @DeleteMapping("/delete/{dependentId}")
-    public ResponseEntity<String> deleteDependent(@PathVariable UUID dependentId){
+    public ResponseEntity<String> deleteDependent(@PathVariable UUID dependentId) throws DependentNotFoundException {
         dependentService.deleteDependent(dependentId);
         return new ResponseEntity<>("Dependent details deleted successfully", HttpStatus.OK);
     }
