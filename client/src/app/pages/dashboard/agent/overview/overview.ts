@@ -8,7 +8,7 @@ type Agent =  {
   username: string;
   name: string;
   gender: string;
-  dob: string; // ISO date string (e.g., "1990-01-01")
+  dob: string;
   address: string;
   email: string;
   phone: number;
@@ -62,7 +62,7 @@ export class Overview implements OnInit{
         next: (element) => {
           this.Claims = element;
           this.totalClients = this.Claims.length;
-          console.log(this.totalClients);
+          // console.log(this.totalClients);
           const activeArrayList = this.Claims.filter((el) => {
             el.status === 'REVIEW' || el.status === 'CREATED'
           });

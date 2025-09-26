@@ -23,6 +23,7 @@ type Claim = {
   templateUrl: './claim-history.html',
   styleUrl: './claim-history.css'
 })
+
 export class ClaimHistory implements OnInit{
   Claims:any[] = []
   private service = inject(ClaimManagement)

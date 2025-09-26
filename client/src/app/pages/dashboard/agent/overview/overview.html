@@ -27,7 +27,7 @@
     <div class="col-md-4">
       <div class="card text-center shadow-sm rounded-4">
         <div class="card-body">
-          <h5 class="fw-semibold text-primary">Total Clients</h5>
+          <h5 class="fw-semibold text-primary">Total Claims</h5>
           <h2 class="fw-bold">{{totalClients}}</h2>
         </div>
       </div>
@@ -57,25 +57,26 @@
       <table class="table table-bordered table-hover table-striped align-middle">
         <thead class="table-dark">
           <tr>
-            <th scope="col">Claim Type</th>
             <th scope="col">Open Date</th>
             <th scope="col">Procedure Notes</th>
-            <th scope="col">Status</th>
-            <th scope="col">Updated At</th>
+            <th class="text-center" scope="col">Claim Type</th>
+            <th class="text-center" scope="col">Status</th>
+            <th scope="col">Last Updated</th>
             <th scope="col">Claim Amount</th>
           </tr>
         </thead>
         <tbody>
         @for(claim of latestClaims; track $index){
             <tr>
-              <td><span class="badge bg-info text-dark">{{claim.claimType}}</span></td>
-              <td>{{claim.openDate | date:'short'}}</td>
+              
+              <td>{{claim.openDate | date:'dd MMMM yyyy'}}</td>
               <td>{{claim.procedureNotes}}</td>
-              <td><span class="badge" [ngClass]="{
+              <td class="text-center"><span class="badge bg-info text-dark">{{claim.claimType}}</span></td>
+              <td class="text-center"><span class="badge" [ngClass]="{
                             'bg-success': claim.status === 'APPROVED',
                             'bg-primary': claim.status === 'CREATED',
                             'bg-danger': claim.status === 'REJECTED',
-                            'bg-warning text-dark': claim.status === 'REVIEW'
+                            'bg-warning text-dark': claim.status === 'IN REVIEW'
                         }">
                             {{claim.status}}
                 </span></td>
