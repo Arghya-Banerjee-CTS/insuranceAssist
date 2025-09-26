@@ -21,7 +21,7 @@
                     <td>{{claim.procedureNotes}}</td>
                     <td><span class="badge bg-info text-dark">{{claim.claimType}}</span></td>
                          <td><span class="badge" [ngClass]="{
-                            'bg-success': claim.status === 'APROVED',
+                            'bg-success': claim.status === 'APPROVED',
                             'bg-primary': claim.status === 'CREATED',
                             'bg-danger': claim.status === 'REJECTED',
                             'bg-warning text-dark': claim.status === 'REVIEW'
@@ -39,7 +39,7 @@
                     <td>
                         <button (click)="ConfirmAction(claim,actionSelect.value)"
                         class="btn btn-primary btn-sm"
-                        [disabled]="claim.status === 'APROVED' || claim.status === 'REJECTED'"   
+                        [disabled]="claim.status === 'APPROVED' || claim.status === 'REJECTED'"   
                         >Confirm
                     </button>
                     </td>

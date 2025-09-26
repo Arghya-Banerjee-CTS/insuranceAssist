@@ -12,7 +12,8 @@ type Claim = {
   procedureNotes: string;
   claimType: string;
   status: string;
-  claimAmount: number;       // Assuming it's a long integer
+  claimAmount: number; 
+  updatedAt:string;      
 };
 
 @Component({
@@ -27,7 +28,7 @@ type Claim = {
 export class ClaimApproval implements OnInit{
   Claims:any[] = []
   private service = inject(ClaimManagement)
-  agentId:any
+  private agentId:any
   ngOnInit(): void {
   this.agentId = localStorage.getItem('userId')
   this.service.getClaimsByAgentId(this.agentId).subscribe({

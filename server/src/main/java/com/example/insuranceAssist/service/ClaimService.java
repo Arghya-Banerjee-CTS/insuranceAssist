@@ -95,7 +95,8 @@ public class ClaimService {
             claim.getProcedureNotes(),
             claim.getClaimType().getClaimType(),
             claim.getStatus().getStatusType(),
-            claim.getClaimAmount()
+            claim.getClaimAmount(),
+            claim.getUpdatedAt()
         );
 
     }
@@ -117,7 +118,8 @@ public class ClaimService {
                     claim.getProcedureNotes(),
                     claim.getClaimType().getClaimType(),
                     claim.getStatus().getStatusType(),
-                    claim.getClaimAmount()
+                    claim.getClaimAmount(),
+                    claim.getUpdatedAt()
             );
             response.add(dto);
         }
@@ -143,7 +145,8 @@ public class ClaimService {
                     claim.getProcedureNotes(),
                     claim.getClaimType().getClaimType(),
                     claim.getStatus().getStatusType(),
-                    claim.getClaimAmount()
+                    claim.getClaimAmount(),
+                    claim.getUpdatedAt()
             );
             response.add(dto);
         }
@@ -190,7 +193,8 @@ public class ClaimService {
                 claim.getProcedureNotes(),
                 claim.getClaimType().getClaimType(),
                 claim.getStatus().getStatusType(),
-                claim.getClaimAmount()
+                claim.getClaimAmount(),
+                claim.getUpdatedAt()
         );
 
     }
@@ -218,7 +222,8 @@ public class ClaimService {
                         claim.getProcedureNotes(),
                         claim.getClaimType().getClaimType(),
                         claim.getStatus().getStatusType(),
-                        claim.getClaimAmount()
+                        claim.getClaimAmount(),
+                        claim.getUpdatedAt()
                 ));
 
         return response;
@@ -242,7 +247,8 @@ public class ClaimService {
                         claim.getProcedureNotes(),
                         claim.getClaimType().getClaimType(),
                         claim.getStatus().getStatusType(),
-                        claim.getClaimAmount()
+                        claim.getClaimAmount(),
+                        claim.getUpdatedAt()
                 ));
 
         return response;

@@ -10,9 +10,6 @@
   <li class="nav-item">
     <a class="nav-link" [class.active] = "activeTab === 'claim-history'" (click)="setTab('claim-history')">Claim History</a>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" [class.active] = "activeTab === 'claim-status-log'" (click)="setTab('claim-status-log')" >Claim Status Log</a>
-  </li>
 </ul>
 
 
@@ -28,6 +25,3 @@
   <app-claim-history/>
 }
 
-@if(activeTab === 'claim-status-log'){
-  <p>claim status log works!</p>
-}
