@@ -8,8 +8,17 @@
         <span class="input-group-text px-3">
           <i class="fas fa-search"></i>
         </span>
-        <input type="text" class="form-control px-3 py-2" placeholder="Search hospitals by name, address, or network..."
-          [(ngModel)]="searchHospital" (input)="searchHospitals()">
+        <input type="text" 
+              class="form-control px-3 py-2" 
+              placeholder="Search hospitals by name, address, or network..."
+              [(ngModel)]="searchHospital" 
+              (input)="searchHospitals()">
+
+        <!-- New Filter Button -->
+        <button [ngClass]="networkButtonClass" (click)="filterNetworkHospitals()">
+          Network Only
+        </button>
+
         <button [ngClass]="ratingButtonClass" (click)="onRatingButtonPressed()">Rating</button>
         <button (click)="onAscendingButtonPressed()"><i class="fas fa-sort-up"></i></button>
         <button (click)="onDescendingButtonPressed()"><i class="fas fa-sort-down"></i></button>
@@ -18,17 +27,17 @@
   </div>
 
   <!-- TABLE SHOWING THE HOSPITAL LIST -->
-  <div class="table-responsive">
-    <table class="table table-striped table-hover table-bordered">
-      <thead class="thead-dark">
+  <div class="overflow-x-auto">
+    <table class="table table-bordered table-hover table-striped align-middle">
+      <thead class="table-dark">
         <tr>
-          <th>S.No</th>
-          <th>Hospital Name</th>
-          <th>Phone No.</th>
-          <th>Email Id</th>
-          <th>Address</th>
-          <th>Rating</th>
-          <th>Network</th>
+          <th scope="col">S.No</th>
+          <th scope="col">Hospital Name</th>
+          <th scope="col">Phone No.</th>
+          <th scope="col">Email Id</th>
+          <th scope="col">Address</th>
+          <th scope="col">Rating</th>
+          <th scope="col">Network</th>
         </tr>
       </thead>
       <tbody>
@@ -39,8 +48,29 @@
           <td>{{item.clientContactNumber}}</td>
           <td>{{item.clientContactEmail}}</td>
           <td>{{item.address}}</td>
-          <td>{{item.rating}}</td>
-          <td>{{item.network}}</td>
+
+          <!-- Rating centered, 1 decimal, pill style -->
+          <td class="text-center">
+            <span 
+              class="px-2 py-1 rounded"
+              [ngClass]="{
+                'bg-danger text-white fw-semibold': item.rating < 2,
+                'bg-warning text-white fw-semibold': item.rating >= 2 && item.rating < 4,
+                'bg-success text-white fw-semibold': item.rating >= 4
+              }">
+              {{ item.rating | number:'1.1-1' }}
+            </span>
+          </td>
+
+          <!-- Network centered with tick/cross -->
+          <td class="text-center">
+            @if (item.network == 1) {
+              <span class="text-success fw-bold">✔</span>
+            }
+            @else if (item.network == 0) {
+              <span class="text-danger fw-bold">✖</span>
+            }
+          </td>
         </tr>
         }
       </tbody>

@@ -20,17 +20,19 @@ export class NetworkHospitals {
   ratingButtonClass: string = 'btn btn-outline-dark rounded-pill px-3 py-2';
   ascendingButtonClass: string = 'btn btn-outline-dark rounded-pill px-3 py-2';
   descendingButtonClass: string = 'btn btn-outline-dark rounded-pill px-3 py-2';
+  networkButtonClass: string = 'btn btn-outline-success rounded-pill px-3 py-2';
+  
   ascSort: boolean = false;
   dscSort: boolean = false;
-  sortByRating: boolean= false;
+  sortByRating: boolean = false;
+  showNetworkOnly: boolean = false;
 
-
-  ngOnInit(): void{
+  ngOnInit(): void {
     this.filteredHospitalList = this.x.hospitalList;
   }
 
   searchHospitals(): void {
-    if(!this.searchHospital){
+    if (!this.searchHospital) {
       this.filteredHospitalList = this.x.hospitalList;
       return;
     }
@@ -39,40 +41,51 @@ export class NetworkHospitals {
     this.filteredHospitalList = this.x.hospitalList.filter(hospital => 
       hospital.name.toLowerCase().includes(serachValue)
     );
-
   }
 
-  onRatingButtonPressed(): void{
+  onRatingButtonPressed(): void {
     this.ascSort = false;
     this.dscSort = false;
     this.sortByRating = !this.sortByRating;
-    this.ratingButtonClass = this.sortByRating ? 'btn btn-secondary rounded-pill px-3 py-2' : 'btn btn-outline-dark rounded-pill px-3 py-2';
-    console.log("rating = "+this.sortByRating + " asc = "+this.ascSort+" dsc = "+this.dscSort);
+    this.ratingButtonClass = this.sortByRating 
+      ? 'btn btn-secondary rounded-pill px-3 py-2' 
+      : 'btn btn-outline-dark rounded-pill px-3 py-2';
   }
 
-  onAscendingButtonPressed(): void{
+  onAscendingButtonPressed(): void {
     this.ascSort = true;
     this.dscSort = false;
-    this.ascendingButtonClass = this.ascSort ? 'btn btn-outline-dark rounded-pill px-3 py-2' : 'btn btn-secondary rounded-pill px-3 py-2';
-    if (this.sortByRating){
+    this.ascendingButtonClass = this.ascSort 
+      ? 'btn btn-outline-dark rounded-pill px-3 py-2' 
+      : 'btn btn-secondary rounded-pill px-3 py-2';
+    if (this.sortByRating) {
       this.filteredHospitalList.sort((a,b) => a.rating - b.rating);
     } else {
-      this.filteredHospitalList.sort((a,b) => b.name<a.name ? 1 : -1);
+      this.filteredHospitalList.sort((a,b) => b.name < a.name ? 1 : -1);
     }
-    console.log("rating = "+this.sortByRating + " asc = "+this.ascSort+" dsc = "+this.dscSort);
   }
 
-  onDescendingButtonPressed(): void{
+  onDescendingButtonPressed(): void {
     this.dscSort = true;
     this.ascSort = false;
-    if(this.sortByRating){
+    if (this.sortByRating) {
       this.filteredHospitalList.sort((a,b) => b.rating - a.rating);
     } else {
-      this.filteredHospitalList.sort((a,b) => a.name<b.name ? 1:-1);
+      this.filteredHospitalList.sort((a,b) => a.name < b.name ? 1 : -1);
     }
-    console.log("rating = "+this.sortByRating + " asc = "+this.ascSort+" dsc = "+this.dscSort);
   }
 
+  // ✅ Toggle filter for network hospitals
+  filterNetworkHospitals(): void {
+    this.showNetworkOnly = !this.showNetworkOnly;
 
+    if (this.showNetworkOnly) {
+      this.filteredHospitalList = this.x.hospitalList.filter(hospital => hospital.network == 1);
+      this.networkButtonClass = 'btn btn-success text-white rounded-pill px-3 py-2';
+    } else {
+      this.filteredHospitalList = this.x.hospitalList;
+      this.networkButtonClass = 'btn btn-outline-success rounded-pill px-3 py-2';
+    }
+  }
 
 }
