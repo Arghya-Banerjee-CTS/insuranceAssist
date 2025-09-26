@@ -34,7 +34,12 @@
             <label for="claimAmount" class="form-label">Claim Amount (₹)</label>
             <input type="number" formControlName="claimAmount" class="form-control" id="claimAmount" placeholder="Enter the amount to claim">
         </div> 
-        <button type="submit" class="btn btn-primary w-100" [disabled]="!newClaimForm.valid">Submit Claim</button>
+        <button type="submit" class="btn btn-primary w-100" [disabled]="!newClaimForm.valid || isClaimAmountExceedsPremium()">Submit Claim</button>
+        @if(isClaimAmountExceedsPremium()){
+            <div class="text-danger">
+                Claim amount cannot exceed your remaining coverage.
+            </div>
+        }
     </form>
 
 </div>
