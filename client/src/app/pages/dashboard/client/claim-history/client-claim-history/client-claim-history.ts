@@ -10,10 +10,6 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './client-claim-history.css'
 })
 
-// class claimHistoryModel {
-//   private 
-// }
-
 export class ClientClaimHistory {
 
   private claimService = inject(Claim);
@@ -26,10 +22,10 @@ export class ClientClaimHistory {
   resultDefault: any[] = [];
   result: any[] = [];
 
-  filterStatus: string = '';
-  filterType: string = '';
-  activeStatus: string = '';
-  activeType: string = '';
+  filterStatusList: string[] = [];
+  filterTypeList: string[] = [];
+  activeStatusList: string[] = [];
+  activeTypeList: string[] = [];
   filterStartDate?: string;
   filterEndDate?: string;
   filterSearchTerm: string = '';
@@ -44,23 +40,43 @@ export class ClientClaimHistory {
   }
 
   filterByStatus(status: string){
-    this.filterStatus = status;
-    this.activeStatus = status;
+    if(this.filterStatusList.includes(status)){
+      let ind = this.filterStatusList.indexOf(status);
+      this.filterStatusList.splice(ind, 1);
+      ind = this.activeStatusList.indexOf(status);
+      this.activeStatusList.splice(ind, 1);
+    }
+    else{
+      this.filterStatusList.push(status);
+      this.activeStatusList.push(status);
+    }
     this.applyFilters();
   }
 
   filterByType(type: string){
-    this.filterType = type;
-    this.activeType = type;
+    if(this.filterTypeList.includes(type)){
+      let ind = this.filterTypeList.indexOf(type);
+      this.filterTypeList.splice(ind, 1);
+      ind = this.activeTypeList.indexOf(type);
+      this.activeTypeList.splice(ind, 1);
+    }
+    else{
+      this.filterTypeList.push(type);
+      this.activeTypeList.push(type);
+    }
     this.applyFilters();
   }
 
   applyFilters(){
     this.result = this.resultDefault.filter(claim => {
 
-      const isStatusCorrect = this.filterStatus ? claim.status === this.filterStatus : true;
+      const isStatusCorrect = this.filterStatusList && this.filterStatusList.length > 0
+        ? this.filterStatusList.includes(claim.status)
+        : true;
 
-      const isTypeCorrect = this.filterType ? claim.claimType === this.filterType : true;
+      const isTypeCorrect = this.filterTypeList && this.filterTypeList.length > 0
+        ? this.filterTypeList.includes(claim.claimType) 
+        : true;
 
       let matchesDate = true;
       if(this.filterStartDate){
@@ -81,23 +97,11 @@ export class ClientClaimHistory {
     });
   }
 
-  resetStatusFilters(){
-    this.filterStatus = '';
-    this.activeStatus = '';
-    this.applyFilters();
-  }
-
-  resetTypeFilters(){
-    this.filterType = '';
-    this.activeType = '';
-    this.applyFilters();
-  }
-
   resetFilters(){
-    this.filterStatus = '';
-    this.filterType = '';
-    this.activeStatus = '';
-    this.activeType = '';
+    this.filterStatusList = [];
+    this.filterTypeList = [];
+    this.activeStatusList = [];
+    this.activeTypeList = [];
     this.filterStartDate = undefined;
     this.filterEndDate = undefined;
     this.result = this.resultDefault;

@@ -7,27 +7,31 @@
 
     <!-- Status Filters -->
     <div class="d-flex flex-wrap gap-2">
-      <button class="btn btn-outline-primary" 
-              [ngClass]="activeStatus === 'CREATED' ? 'btn-primary text-white' : 'btn-outline-primary'" 
+      <button class="btn"
+              [ngClass]="activeStatusList.includes('CREATED') ? 'btn-primary text-white' : 'btn-outline-primary'"
               (click)="filterByStatus('CREATED')">Created</button>
-      <button class="btn btn-outline-success" 
-              [ngClass]="activeStatus === 'APPROVED' ? 'btn-success text-white' : 'btn-outline-success'" 
+
+      <button class="btn"
+              [ngClass]="activeStatusList.includes('REVIEW') ? 'btn-warning text-white' : 'btn-outline-warning'"
+              (click)="filterByStatus('IN REVIEW')">In Review</button>
+
+      <button class="btn"
+              [ngClass]="activeStatusList.includes('APPROVED') ? 'btn-success text-white' : 'btn-outline-success'"
               (click)="filterByStatus('APPROVED')">Approved</button>
-      <button class="btn btn-outline-danger" 
-              [ngClass]="activeStatus === 'REJECTED' ? 'btn-danger text-white' : 'btn-outline-danger'" 
+
+      <button class="btn"
+              [ngClass]="activeStatusList.includes('REJECTED') ? 'btn-danger text-white' : 'btn-outline-danger'"
               (click)="filterByStatus('REJECTED')">Rejected</button>
-      <button class="btn btn-secondary" (click)="resetStatusFilters()">All Status</button>
     </div>
 
     <!-- Claim Type Filters -->
     <div class="d-flex flex-wrap gap-2">
-      <button class="btn btn-outline-warning" 
-              [ngClass]="activeType === 'PRE' ? 'btn-warning text-dark' : 'btn-outline-warning'" 
+      <button class="btn" 
+              [ngClass]="activeTypeList.includes('PRE') ? 'btn-warning text-dark' : 'btn-outline-warning'" 
               (click)="filterByType('PRE')">PRE</button>
-      <button class="btn btn-outline-info" 
-              [ngClass]="activeType === 'POST' ? 'btn-info text-dark' : 'btn-outline-info'" 
+      <button class="btn" 
+              [ngClass]="activeTypeList.includes('POST') ? 'btn-info text-dark' : 'btn-outline-info'" 
               (click)="filterByType('POST')">POST</button>
-      <button class="btn btn-dark" (click)="resetTypeFilters()">All Types</button>
     </div>
 
     <!-- Date Range Filter -->
@@ -68,28 +72,42 @@
           <tr>
             <th scope="col">Open Date</th>
             <th scope="col">Procedure Notes</th>
-            <th scope="col">Claim Type</th>
-            <th scope="col">Status</th>
+            <th class="text-center" scope="col">Claim Type</th>
+            <th class="text-center" scope="col">Status</th>
             <th scope="col">Claim Amount</th>
           </tr>
         </thead>
         <tbody>
           @for (c of result; track c.claimId) {
             <tr>
-              <td>{{ c.openDate | date:'long' }}</td>
+              <td>{{ c.openDate | date:'dd MMMM yyyy' }}</td>
               <td>{{ c.procedureNotes }}</td>
-              <td><span class="badge bg-info text-dark">{{ c.claimType }}</span></td>
-              <td>
+
+              <!-- Claim Type -->
+              <td class="text-center">
+                <span class="badge"
+                      [ngClass]="{
+                        'bg-warning': c.claimType === 'PRE',
+                        'bg-info': c.claimType === 'POST'
+                      }">
+                  {{ c.claimType }}
+                </span>
+              </td>
+
+
+              <!-- Status -->
+              <td class="text-center">
                 <span class="badge"
                   [ngClass]="{
                     'bg-primary': c.status === 'CREATED',
                     'bg-success': c.status === 'APPROVED',
                     'bg-danger': c.status === 'REJECTED',
-                    'bg-warning text-dark': c.status === 'REVIEW'
+                    'bg-warning': c.status === 'IN REVIEW'
                   }">
                   {{ c.status }}
                 </span>
               </td>
+
               <td>Rs.{{ c.claimAmount }}</td>
             </tr>
           }
