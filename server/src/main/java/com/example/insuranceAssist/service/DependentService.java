@@ -50,7 +50,7 @@ public class DependentService {
                 client,
                 LocalDateTime.now()
         );
-        
+
         DependentMaster dep = dependentMasterRepository.save(dependentDetails);
 
         PolicyMaster policy = policyMasterRepository.findByClient(client);
@@ -58,6 +58,8 @@ public class DependentService {
 
         policy.setDependents(policy.getDependents() + 1);
         policy.setPremium(policy.getPremium() + policyTypeMaster.getPremiumPerDependent());
+
+        policyMasterRepository.save(policy);
 
         return dep.getId();
         
