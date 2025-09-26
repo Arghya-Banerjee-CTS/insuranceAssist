@@ -53,7 +53,10 @@ export class Login {
           this.router.navigateByUrl("/dashboard/agent");
           }
           else if(response.role !== selectedRole.toUpperCase()){
-            alert(`You are registered as ${response.role}. Please select the correct role.`);
+            alert(`${selectedRole} not Found. Please select the correct role or register.`);
+            localStorage.removeItem('token');
+            localStorage.removeItem('role');
+            localStorage.removeItem('userId');
           }
         }
         else{
