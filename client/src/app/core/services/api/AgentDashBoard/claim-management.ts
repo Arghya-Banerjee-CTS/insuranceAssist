@@ -51,11 +51,11 @@ export class ClaimManagement {
 
   updateClaimStatus(claim: Claim, updatedStatus: string) {
     if (updatedStatus === '2') {
-      claim.status = "Review".toUpperCase();
+      claim.status = "IN REVIEW";
     } else if (updatedStatus === '3') {
-      claim.status = "Aproved".toUpperCase();
+      claim.status = "APPROVED";
     } else if (updatedStatus === '4') {
-      claim.status = "Rejected".toUpperCase();
+      claim.status = "REJECTED";
     }
     const url = `${environment.apiUrl}/private/claim/update/${claim.claimId}/${updatedStatus}`;
     this.http.put(url, {}).subscribe();
