@@ -9,12 +9,12 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class UserDetailsResponseDTO {
 
-    private String username;
-    private String name;
-    private String gender;
-    private LocalDate dob;
-    private String address;
-    private String email;
-    private Long phone;
+        private String username;
+        private String name;
+        private String gender;
+        private LocalDate dob;
+        private String address;
+        private String email;
+        private Long phone;
 
 }

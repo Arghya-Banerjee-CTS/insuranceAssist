@@ -17,5 +17,6 @@ public class ClaimResponseDTO {
     private String claimType;
     private String status;
     private Long claimAmount;
+    private LocalDateTime updatedAt;
 
 }

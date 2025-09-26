@@ -12,8 +12,10 @@ type Claim = {
   procedureNotes: string;
   claimType: string;
   status: string;
-  claimAmount: number;       // Assuming it's a long integer
+  claimAmount: number; 
+  updatedAt:string;      
 };
+
 
 @Component({
   selector: 'app-claim-history',

@@ -4,14 +4,26 @@ import { environment } from '../../../../../environments/environment.development
 import { Observable } from 'rxjs';
 
 type Claim = {
-  claimId: string;          
-  policyId: string;          
-  openDate: string;         
+  claimId: string;           // UUID as string
+  policyId: string;          // UUID as string
+  openDate: string;          // ISO 8601 format (e.g., "2025-09-16T18:03:00")
   procedureNotes: string;
   claimType: string;
   status: string;
-  claimAmount: number;      
+  claimAmount: number; 
+  updatedAt:string;      
 };
+
+
+type Agent =  {
+  username: string;
+  name: string;
+  gender: string;
+  dob: string; // ISO date string (e.g., "1990-01-01")
+  address: string;
+  email: string;
+  phone: number;
+}
 
 
 @Injectable({
@@ -20,13 +32,20 @@ type Claim = {
 export class ClaimManagement {
   private http = inject(HttpClient)
   private apiUrl = environment.apiUrl
-  Claims!:[] 
+  private Claims!:[] 
+  
 
+  getAgentDetails(agentID:string|null):Observable<Agent>{
+    const url = `${this.apiUrl}/private/profile/get/${agentID}`;
+    return this.http.get<Agent>(url);
+  }
 
   getClaimsByAgentId(agentId: string | null): Observable<Claim[]> {
     const url = `${this.apiUrl}/private/claim/get/agent/${agentId}`;
     return this.http.get<Claim[]>(url);
   }
+  
+  
 
 
 
