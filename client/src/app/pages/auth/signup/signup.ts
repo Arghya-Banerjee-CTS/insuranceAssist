@@ -38,13 +38,13 @@ export class Signup {
     ]
     });
 
-    if (saved) {
-          this.signupForm = this.fb.group(JSON.parse(saved));
-    }
+    // if (saved) {
+    //       this.signupForm = this.fb.group(JSON.parse(saved));
+    // }
 
-    this.signupForm.valueChanges.subscribe(val => {
-        localStorage.setItem('signupDetails', JSON.stringify(val));
-    });
+    // this.signupForm.valueChanges.subscribe(val => {
+    //     localStorage.setItem('signupDetails', JSON.stringify(val));
+    // });
   }
 
   onSignup() {

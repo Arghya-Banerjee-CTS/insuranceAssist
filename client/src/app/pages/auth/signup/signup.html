@@ -59,7 +59,7 @@
     </div>
     <div class="mb-3">
         <label for="phone" class="form-label">Phone Number</label>
-        <input type="number" formControlName="phone" class="form-control" id="phone" placeholder="Enter phone number">
+        <input type="tel" formControlName="phone" class="form-control" id="phone" placeholder="Enter phone number">
         @if(signupForm.get('phone')?.touched && signupForm.get('phone')?.invalid){
             <div class="text-danger">
                 @if(signupForm.get('phone')?.errors?.['required']) { Phone number is required. }
