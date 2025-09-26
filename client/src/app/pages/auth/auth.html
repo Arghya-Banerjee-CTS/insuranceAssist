@@ -15,19 +15,24 @@
     <!-- Right Side Buttons -->
     <div class="d-flex">
       <a href="#about" class="btn btn-outline-primary me-2">About Us</a>
-      <a href="#contact" class="btn btn-primary">Contact Us</a>
+      <a href="#contact" class="btn btn-primary me-2">Contact Us</a>
+      @if(selectedTab==='login'){
+      <button class="btn btn-primary me-md-2" (click)="selectTab('register')">Register</button>
+      }
+      @else {
+        <button class="btn btn-primary me-md-2" (click)="selectTab('login')">Login</button>
+      }
     </div>
   </div>
 </nav>
 
 <div class="auth-card">
     <div class="auth-card-body">
-        <div>
+        <!-- <div>
             <button class="btn  btn-primary me-md-2" [class.active]="selectedTab === 'login'" (click)="selectTab('login')">Login</button>
             <button class="btn  btn-primary me-md-2" [class.active]="selectedTab === 'register'" (click)="selectTab('register')">Register</button>
-        </div>
+        </div> -->
         <!-- <h4 class="auth-card-title text-center">{{ selectedTab === 'login' ? 'Login' : 'Register' }}</h4> -->
-        <br/>
             @if (selectedTab === 'login') {
                 <app-login></app-login>
             }
