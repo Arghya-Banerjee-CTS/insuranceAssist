@@ -39,7 +39,7 @@ export class NetworkHospitals {
 
     const serachValue = this.searchHospital.toLowerCase();
     this.filteredHospitalList = this.x.hospitalList.filter(hospital => 
-      hospital.name.toLowerCase().includes(serachValue)
+      hospital.name.toLowerCase().startsWith(serachValue)
     );
   }
 
