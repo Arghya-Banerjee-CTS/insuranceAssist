@@ -48,16 +48,22 @@ public class GlobalControllerAdvice {
         return buildErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    // Handle HospitalExistsException
-    @ExceptionHandler(HospitalExistsException.class)
-    public ResponseEntity<Map<String, Object>> handleDependentNotFound(HospitalExistsException ex) {
-        return buildErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND);
+    // Handle HospitalAlreadyExistsException
+    @ExceptionHandler(HospitalAlreadyExistsException.class)
+    public ResponseEntity<Map<String, Object>> handleHospitalAlreadyExists(HospitalAlreadyExistsException ex) {
+        return buildErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     // Handle HospitalNotFoundException
     @ExceptionHandler(HospitalNotFoundException.class)
     public ResponseEntity<Map<String, Object>> handleHospitalNotFound(HospitalNotFoundException ex) {
         return buildErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    //Handle PolicyClaimCoverageNotEnoughException
+    @ExceptionHandler(PolicyClaimCoverageNotEnoughException.class)
+    public ResponseEntity<Map<String, Object>> handlePolicyClaimCoverageNotEnough(PolicyClaimCoverageNotEnoughException ex) {
+        return buildErrorResponse(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     // Handle PolicyNotFoundException

@@ -25,6 +25,7 @@ public class LoginService {
     private JwtService jwtService;
 
     public String verify(LoginRequestDTO request) {
+
         Authentication authentication =
                 authManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
 

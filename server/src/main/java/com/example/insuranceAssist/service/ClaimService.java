@@ -23,22 +23,20 @@ public class ClaimService {
     private final ClaimTypeMasterRepository claimTypeMasterRepository;
     private final UserMasterRepository userMasterRepository;
     private final PolicyMasterRepository policyMasterRepository;
-    private final PolicyTypeMasterRepository policyTypeMasterRepository;
     private final StatusTypeMasterRepository statusTypeMasterRepository;
     private final AgentAllocationService agentAllocationService;
 
-    public ClaimService(AuthorizationRepository authorizationRepository, AuthorizationLogRepository authorizationLogRepository, ClaimTypeMasterRepository claimTypeMasterRepository, UserMasterRepository userMasterRepository, PolicyMasterRepository policyMasterRepository, PolicyTypeMasterRepository policyTypeMasterRepository, StatusTypeMasterRepository statusTypeMasterRepository, AgentAllocationService agentAllocationService) {
+    public ClaimService(AuthorizationRepository authorizationRepository, AuthorizationLogRepository authorizationLogRepository, ClaimTypeMasterRepository claimTypeMasterRepository, UserMasterRepository userMasterRepository, PolicyMasterRepository policyMasterRepository, StatusTypeMasterRepository statusTypeMasterRepository, AgentAllocationService agentAllocationService) {
         this.authorizationRepository = authorizationRepository;
         this.authorizationLogRepository = authorizationLogRepository;
         this.claimTypeMasterRepository = claimTypeMasterRepository;
         this.userMasterRepository = userMasterRepository;
         this.policyMasterRepository = policyMasterRepository;
-        this.policyTypeMasterRepository = policyTypeMasterRepository;
         this.statusTypeMasterRepository = statusTypeMasterRepository;
         this.agentAllocationService = agentAllocationService;
     }
 
-    public UUID createClaim(ClaimCreateRequestDTO request) throws ClientNotFoundException, ClaimTypeNotFoundException, StatusTypeNotFoundException {
+    public UUID createClaim(ClaimCreateRequestDTO request) throws ClientNotFoundException, ClaimTypeNotFoundException, StatusTypeNotFoundException, PolicyClaimCoverageNotEnoughException {
 
         UserMaster client = userMasterRepository.findById(request.getClientId())
                 .orElseThrow(() -> new ClientNotFoundException("Client not found with id: " + request.getClientId()));
@@ -46,6 +44,10 @@ public class ClaimService {
         UserMaster agent = agentAllocationService.getAllocatedAgent();
 
         PolicyMaster policy = policyMasterRepository.findByClient(client);
+
+        if(request.getClaimAmount() > policy.getRemainingCoverage()){
+            throw new PolicyClaimCoverageNotEnoughException("Claim cannot be created due to insufficient remaining coverage");
+        }
 
         PolicyTypeMaster policyType = policy.getPolicyType();
 
@@ -172,10 +174,60 @@ public class ClaimService {
 
         authorizationRepository.save(claim);
 
-        PolicyMaster policy = claim.getPolicy();
-        policy.setRemainingCoverage(policy.getRemainingCoverage() - claim.getClaimAmount());
+        if(currStatus == approvedStatus) {
 
-        policyMasterRepository.save(policy);
+            PolicyMaster policy = claim.getPolicy();
+            policy.setRemainingCoverage(policy.getRemainingCoverage() - claim.getClaimAmount());
+            policyMasterRepository.save(policy);
+
+        }
+
+        AuthorizationLog log = new AuthorizationLog(
+                claim,
+                prevStatus,
+                currStatus,
+                LocalDateTime.now()
+        );
+
+        authorizationLogRepository.save(log);
+
+        return new ClaimResponseDTO(
+                claim.getId(),
+                claim.getPolicy().getPolicyId(),
+                claim.getOpenDate(),
+                claim.getProcedureNotes(),
+                claim.getClaimType().getClaimType(),
+                claim.getStatus().getStatusType(),
+                claim.getClaimAmount(),
+                claim.getUpdatedAt()
+        );
+
+    }
+
+    public ClaimResponseDTO updateClaimWithPreAuth(UUID claimId, Long updatedStatus, Long claimAmount) throws ClaimNotFoundException, StatusTypeNotFoundException {
+
+        Authorization claim = authorizationRepository.findById(claimId)
+                .orElseThrow(() -> new ClaimNotFoundException("Claim not found with id: " + claimId));
+
+        StatusTypeMaster currStatus = statusTypeMasterRepository.findById(updatedStatus)
+                .orElseThrow(() -> new StatusTypeNotFoundException("Status type not found with id: " + updatedStatus));
+
+        StatusTypeMaster prevStatus = claim.getStatus();
+
+        claim.setStatus(currStatus);
+
+        StatusTypeMaster approvedStatus = statusTypeMasterRepository.findById(3L)
+                .orElseThrow(() -> new StatusTypeNotFoundException("Status type not found with id: " + 3));
+
+        authorizationRepository.save(claim);
+
+        if(currStatus == approvedStatus) {
+
+            PolicyMaster policy = claim.getPolicy();
+            policy.setRemainingCoverage(policy.getRemainingCoverage() - claimAmount);
+            policyMasterRepository.save(policy);
+
+        }
 
         AuthorizationLog log = new AuthorizationLog(
                 claim,
@@ -254,5 +306,6 @@ public class ClaimService {
         return response;
 
     }
+
 
 }
