@@ -1,14 +1,16 @@
 package com.example.insuranceAssist.service;
 
+import com.example.insuranceAssist.dto.DependentCreationRequestDTO;
+import com.example.insuranceAssist.dto.DependentDetailsDTO;
+import com.example.insuranceAssist.dto.DependentProfileViewDTO;
 import com.example.insuranceAssist.entity.*;
 import com.example.insuranceAssist.exception.ClientNotFoundException;
 import com.example.insuranceAssist.exception.DependentNotFoundException;
 import com.example.insuranceAssist.exception.RelationNotFoundException;
-import com.example.insuranceAssist.dto.DependentCreationRequestDTO;
-import com.example.insuranceAssist.dto.DependentDetailsDTO;
-import com.example.insuranceAssist.dto.DependentProfileViewDTO;
-import com.example.insuranceAssist.repository.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.insuranceAssist.repository.DependentMasterRepository;
+import com.example.insuranceAssist.repository.PolicyMasterRepository;
+import com.example.insuranceAssist.repository.RelationTypeMasterRepository;
+import com.example.insuranceAssist.repository.UserMasterRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -19,17 +21,17 @@ import java.util.UUID;
 @Service
 public class DependentService {
 
-    @Autowired
-    private UserMasterRepository userMasterRepository;
-    
-    @Autowired
-    private RelationTypeMasterRepository relationTypeMasterRepository;
-    
-    @Autowired
-    private DependentMasterRepository dependentMasterRepository;
+    private final UserMasterRepository userMasterRepository;
+    private final RelationTypeMasterRepository relationTypeMasterRepository;
+    private final DependentMasterRepository dependentMasterRepository;
+    private final PolicyMasterRepository policyMasterRepository;
 
-    @Autowired
-    private PolicyMasterRepository policyMasterRepository;
+    public DependentService(UserMasterRepository userMasterRepository, RelationTypeMasterRepository relationTypeMasterRepository, DependentMasterRepository dependentMasterRepository, PolicyMasterRepository policyMasterRepository){
+        this.userMasterRepository = userMasterRepository;
+        this.relationTypeMasterRepository = relationTypeMasterRepository;
+        this.dependentMasterRepository = dependentMasterRepository;
+        this.policyMasterRepository = policyMasterRepository;
+    }
 
     public UUID createDependent(DependentCreationRequestDTO request) throws ClientNotFoundException, RelationNotFoundException {
         
