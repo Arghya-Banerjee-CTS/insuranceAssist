@@ -4,6 +4,7 @@ import { OnInit } from '@angular/core';
 import { environment } from '../../../../../environments/environment.development';
 import { CommonModule, DatePipe } from '@angular/common';
 import { ClaimManagement } from '../../../../core/services/api/AgentDashBoard/claim-management';
+import { FormsModule } from '@angular/forms';
 
 type Claim = {
   claimId: string;           // UUID as string
@@ -19,7 +20,7 @@ type Claim = {
 @Component({
   selector: 'app-claim-approval',
   standalone: true, 
-  imports: [DatePipe,CommonModule],       
+  imports: [DatePipe,CommonModule, FormsModule],       
   templateUrl: './claim-approval.html',
   styleUrls: ['./claim-approval.css']
 })
@@ -44,6 +45,7 @@ export class ClaimApproval implements OnInit{
   }
 
   ConfirmAction(claim:Claim,status:string){
+
     console.log(this.Claims)
     this.service.updateClaimStatus(claim,status)
   }

@@ -28,21 +28,55 @@
                         }">
                             {{claim.status}}
                         </span></td>
-                    <td>Rs.{{claim.claimAmount}}</td>
-                    <td>
+
+
+                    <!-- <td>Rs.{{claim.claimAmount}}</td> -->
+                     <td>@if(claim.claimType === 'POST' && claim.selectedAction === '3') {
+                            <input type="number"
+                                class="form-control form-control-sm"
+                                    [(ngModel)]="claim.claimAmount"
+                                min="1"
+                                [ngClass]="{'is-invalid': claim.claimAmount == 0}" />
+                            @if(claim.claimAmount == 0) {
+                            <div class="text-danger small mt-1">reimbursement amount must be non-zero</div>
+                            }
+                        }
+                        @else {
+                            Rs.{{claim.claimAmount}}
+                        }
+                    </td>
+
+                    <!-- <td>
                         <select #actionSelect class="form-select form-select-sm">
                             <option value="2">REVIEW</option>
-                            <option value="3">APROVE</option>
+                            <option value="3">APPROVE</option>
                             <option value="4">REJECTED</option>
                         </select>
-                    </td>
+                    </td> -->
                     <td>
+                    <select [(ngModel)]="claim.selectedAction" class="form-select form-select-sm" placeholder="Select">
+                        <option value="2">REVIEW</option>
+                        <option value="3">APPROVE</option>
+                        <option value="4">REJECTED</option>
+                    </select>
+                    </td>
+
+                    <!-- <td>
                         <button (click)="ConfirmAction(claim,actionSelect.value)"
                         class="btn btn-primary btn-sm"
                         [disabled]="claim.status === 'APPROVED' || claim.status === 'REJECTED'"   
                         >Confirm
                     </button>
+                    </td> -->
+                    <td>
+                        <button (click)="ConfirmAction(claim, claim.selectedAction)"
+                            class="btn btn-primary btn-sm"
+                            [disabled]="(claim.claimType === 'POST' && claim.selectedAction === '3' && (!claim.claimAmount || claim.claimAmount == 0)) || claim.status === 'APPROVED' || claim.status === 'REJECTED'">
+                            Confirm
+                        </button>
                     </td>
+
+
                 </tr>
             }
         </tbody>
