@@ -53,11 +53,14 @@ export class ClaimManagement {
     if (updatedStatus === '2') {
       claim.status = "Review".toUpperCase();
     } else if (updatedStatus === '3') {
-      claim.status = "Aproved".toUpperCase();
+      claim.status = "Approved".toUpperCase();
     } else if (updatedStatus === '4') {
       claim.status = "Rejected".toUpperCase();
     }
-    const url = `${environment.apiUrl}/private/claim/update/${claim.claimId}/${updatedStatus}`;
+    claim.claimType==="POST"
+      
+    // const url = `${environment.apiUrl}/private/claim/update/${claim.claimId}/${updatedStatus}`;
+    const url = (claim.claimType==="POST")?`${environment.apiUrl}/private/claim/update/${claim.claimId}/${updatedStatus}/${claim.claimAmount}`:`${environment.apiUrl}/private/claim/update/${claim.claimId}/${updatedStatus}`;
     this.http.put(url, {}).subscribe();
   }
   
