@@ -45,10 +45,6 @@ export class ClaimManagement {
     return this.http.get<Claim[]>(url);
   }
   
-  
-
-
-
   updateClaimStatus(claim: Claim, updatedStatus: string) {
     if (updatedStatus === '2') {
       claim.status = "IN REVIEW";

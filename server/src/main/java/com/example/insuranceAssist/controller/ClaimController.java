@@ -24,7 +24,7 @@ public class ClaimController {
 
 //    @PreAuthorize("hasRole('CLIENT')")
     @PostMapping("/create")
-    public ResponseEntity<UUID> createClaim(@RequestBody ClaimCreateRequestDTO request) throws ClientNotFoundException, StatusTypeNotFoundException, ClaimTypeNotFoundException {
+    public ResponseEntity<UUID> createClaim(@RequestBody ClaimCreateRequestDTO request) throws ClientNotFoundException, StatusTypeNotFoundException, ClaimTypeNotFoundException, PolicyClaimCoverageNotEnoughException {
         UUID claimId = claimService.createClaim(request);
         return new ResponseEntity<>(claimId, HttpStatus.CREATED);
     }
@@ -62,6 +62,12 @@ public class ClaimController {
     @PutMapping("/update/{claimId}/{updatedStatus}")
     public ResponseEntity<ClaimResponseDTO> updateClaim(@PathVariable UUID claimId, @PathVariable Long updatedStatus) throws ClaimNotFoundException, StatusTypeNotFoundException {
         ClaimResponseDTO response = claimService.updateClaim(claimId, updatedStatus);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PutMapping("/update/{claimId}/{updatedStatus}/{claimAmount}")
+    public ResponseEntity<ClaimResponseDTO> updateClaimWithPreAuth(@PathVariable UUID claimId, @PathVariable Long updatedStatus, @PathVariable Long claimAmount) throws ClaimNotFoundException, StatusTypeNotFoundException {
+        ClaimResponseDTO response = claimService.updateClaimWithPreAuth(claimId, updatedStatus, claimAmount);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
