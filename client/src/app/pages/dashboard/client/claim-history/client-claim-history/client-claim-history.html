@@ -12,7 +12,7 @@
               (click)="filterByStatus('CREATED')">Created</button>
 
       <button class="btn"
-              [ngClass]="activeStatusList.includes('REVIEW') ? 'btn-warning text-white' : 'btn-outline-warning'"
+              [ngClass]="activeStatusList.includes('IN REVIEW') ? 'btn-warning text-white' : 'btn-outline-warning'"
               (click)="filterByStatus('IN REVIEW')">In Review</button>
 
       <button class="btn"

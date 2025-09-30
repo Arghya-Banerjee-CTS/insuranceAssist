@@ -2,7 +2,6 @@ package com.example.insuranceAssist.controller;
 
 import com.example.insuranceAssist.dto.RegistrationRequestDTO;
 import com.example.insuranceAssist.service.RegistrationService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,8 +15,11 @@ import java.util.UUID;
 @RequestMapping("/api/v1/public")
 public class RegistrationController {
 
-    @Autowired
-    private RegistrationService registrationService;
+    private final RegistrationService registrationService;
+
+    public RegistrationController(RegistrationService registrationService){
+        this.registrationService = registrationService;
+    }
 
     @PostMapping("/register")
     public ResponseEntity<UUID> register(@RequestBody RegistrationRequestDTO request){

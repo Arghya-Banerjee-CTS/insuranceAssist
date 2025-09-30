@@ -17,14 +17,14 @@
         <tbody>
             @for(claim of Claims; track $index){
                 <tr>
-                    <td>{{claim.openDate | date:'long'}}</td>
+                    <td>{{claim.openDate | date:'dd MMMM yyyy'}}</td>
                     <td>{{claim.procedureNotes}}</td>
-                    <td><span class="badge bg-info text-dark">{{claim.claimType}}</span></td>
-                         <td><span class="badge" [ngClass]="{
+                    <td class="text-center"><span class="badge bg-info">{{claim.claimType}}</span></td>
+                         <td class="text-center"><span class="badge" [ngClass]="{
                             'bg-success': claim.status === 'APPROVED',
                             'bg-primary': claim.status === 'CREATED',
                             'bg-danger': claim.status === 'REJECTED',
-                            'bg-warning text-dark': claim.status === 'REVIEW'
+                            'bg-warning': claim.status === 'IN REVIEW'
                         }">
                             {{claim.status}}
                         </span></td>

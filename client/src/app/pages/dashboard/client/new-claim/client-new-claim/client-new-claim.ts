@@ -29,7 +29,7 @@ export class ClientNewClaim {
     this.newClaimForm = this.fb.group({
          claimType: ['', Validators.required],
          procedureNotes: ['', Validators.required],
-         claimAmount: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
+         claimAmount: [0, [Validators.required, Validators.pattern('^[0-9]+$')]],
       });
 
       const userId = localStorage.getItem('userId');

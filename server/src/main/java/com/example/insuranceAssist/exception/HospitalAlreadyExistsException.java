@@ -4,13 +4,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(code = HttpStatus.NOT_FOUND)
-public class HospitalExistsException extends Exception{
+public class HospitalAlreadyExistsException extends Exception{
 
-    public HospitalExistsException(){
+    public HospitalAlreadyExistsException(){
         super();
     }
 
-    public HospitalExistsException(String message){
+    public HospitalAlreadyExistsException(String message){
         super(message);
     }
 }

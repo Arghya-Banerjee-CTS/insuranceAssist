@@ -5,7 +5,6 @@ import com.example.insuranceAssist.entity.RoleMaster;
 import com.example.insuranceAssist.entity.UserMaster;
 import com.example.insuranceAssist.repository.RoleMasterRepository;
 import com.example.insuranceAssist.repository.UserMasterRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +13,13 @@ import java.util.UUID;
 @Service
 public class RegistrationService {
 
-    @Autowired
-    private UserMasterRepository userMasterRepository;
-    @Autowired
-    private RoleMasterRepository roleMasterRepository;
+    private final UserMasterRepository userMasterRepository;
+    private final RoleMasterRepository roleMasterRepository;
+
+    public RegistrationService(UserMasterRepository userMasterRepository, RoleMasterRepository roleMasterRepository){
+        this.userMasterRepository = userMasterRepository;
+        this.roleMasterRepository = roleMasterRepository;
+    }
 
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 

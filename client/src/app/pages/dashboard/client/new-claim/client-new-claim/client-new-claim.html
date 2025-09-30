@@ -1,46 +1,33 @@
-<!-- <div class="card p-4 shadow-sm mb-4">
-    <h5>Your Current Policy Details</h5>
-    <br/>
-    <div class="row">
-        <div class="col-md-6">
-            <p><strong>Policy Tier:</strong> {{ policyDetails.tier }}</p>
-            <p><strong>Start Date:</strong> {{ policyDetails.startDate }}</p>
-        </div>
-        <div class="col-md-6">
-            <p><strong>End Date:</strong> {{ policyDetails.endDate }}</p>
-            <p><strong>Premium:</strong> {{ policyDetails.premium }}</p>
-            <p><strong>Remaining Coverage:</strong> {{ policyDetails.remainingCoverage }}</p>
-        </div>
-    </div>
-</div> -->
-
 <div class="card p-4 shadow-sm">
-    <h5>Create a New Claim</h5>
-    <p>Fill the form below</p>
-    <form [formGroup]="newClaimForm" (ngSubmit)="onCreateClaim()">
-        <div class="mb-3">
-            <label for="claimType" class="form-label">Claim Type</label>
-            <select class="form-select" id="claimType" formControlName="claimType">
-                <option value="" disabled selected>Select claim type</option>
-                <option value="1">Pre-Authorization (Cashless)</option>
-                <option value="2">Post-Authorization (Reimbursement)</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="procedureNotes" class="form-label">Procedure details</label>
-            <textarea class="form-control" formControlName="procedureNotes" id="procedureNotes" placeholder="Enter the procedure details" rows="3"></textarea>
-        </div>
-        <div class="mb-3">
-            <label for="claimAmount" class="form-label">Claim Amount (₹)</label>
-            <input type="number" formControlName="claimAmount" class="form-control" id="claimAmount" placeholder="Enter the amount to claim">
-        </div> 
-        <button type="submit" class="btn btn-primary w-100" [disabled]="!newClaimForm.valid || isClaimAmountExceedsPremium()">Submit Claim</button>
+  <h5>Create a New Claim</h5>
+  <p>Fill the form below</p>
+  <form [formGroup]="newClaimForm" (ngSubmit)="onCreateClaim()">
+    <div class="mb-3">
+      <label for="claimType" class="form-label">Claim Type</label>
+      <select class="form-select" id="claimType" formControlName="claimType">
+        <option value="" disabled selected>Select claim type</option>
+        <option value="1">Pre-Authorization (Cashless)</option>
+        <option value="2">Post-Authorization (Reimbursement)</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label for="procedureNotes" class="form-label">Procedure details</label>
+      <textarea class="form-control" formControlName="procedureNotes" id="procedureNotes" placeholder="Enter the procedure details" rows="3"></textarea>
+    </div>
+
+    @if (newClaimForm.get('claimType')?.value === '2') {
+    <div class="mb-3">
+        <label for="claimAmount" class="form-label">Claim Amount (₹)</label>
+        <input type="number" formControlName="claimAmount" class="form-control" id="claimAmount" placeholder="Enter the amount to claim">
+    </div>
+    }
+
+    <button type="submit" class="btn btn-primary w-100" [disabled]="!newClaimForm.valid || isClaimAmountExceedsPremium()">Submit Claim</button>
         @if(isClaimAmountExceedsPremium()){
             <div class="text-danger">
                 Claim amount cannot exceed your remaining coverage.
             </div>
         }
-    </form>
-
+  </form>
 </div>
-

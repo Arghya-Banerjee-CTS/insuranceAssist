@@ -4,7 +4,6 @@ import com.example.insuranceAssist.dto.LoginRequestDTO;
 import com.example.insuranceAssist.dto.LoginResponseDTO;
 import com.example.insuranceAssist.entity.UserMaster;
 import com.example.insuranceAssist.repository.UserMasterRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -15,16 +14,18 @@ import java.util.UUID;
 @Service
 public class LoginService {
 
-    @Autowired
-    private AuthenticationManager authManager;
+    private final AuthenticationManager authManager;
+    private final UserMasterRepository userMasterRepository;
+    private final JwtService jwtService;
 
-    @Autowired
-    private UserMasterRepository userMasterRepository;
-
-    @Autowired
-    private JwtService jwtService;
+    public LoginService(AuthenticationManager authManager, UserMasterRepository userMasterRepository, JwtService jwtService){
+        this.authManager = authManager;
+        this.userMasterRepository = userMasterRepository;
+        this.jwtService = jwtService;
+    }
 
     public String verify(LoginRequestDTO request) {
+
         Authentication authentication =
                 authManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
 
