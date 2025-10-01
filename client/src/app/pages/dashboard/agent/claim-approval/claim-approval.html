@@ -55,9 +55,20 @@
                     </td> -->
                     <td>
                     <select [(ngModel)]="claim.selectedAction" class="form-select form-select-sm" placeholder="Select">
-                        <option value="2">REVIEW</option>
+                        <!-- <option value="2">REVIEW</option>
                         <option value="3">APPROVE</option>
-                        <option value="4">REJECTED</option>
+                        <option value="4">REJECTED</option> -->
+                        @if (claim.status === 'CREATED') {
+                            <option value="">Select Action</option>
+                            <option value="2">REVIEW</option>
+                            <option value="3">APPROVE</option>
+                            <option value="4">REJECT</option>
+                        }
+                        @else if(claim.status === 'IN REVIEW'){
+                            <option value="">Select Action</option>
+                            <option value="3">APPROVE</option>
+                            <option value="4">REJECT</option>
+                        }
                     </select>
                     </td>
 
@@ -82,5 +93,3 @@
         </tbody>
     </table>
 </div>
-
-<!-- # is a template reference variable -->
