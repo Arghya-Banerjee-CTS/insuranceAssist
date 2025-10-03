@@ -245,7 +245,7 @@ public class ClaimService {
                 claim.getProcedureNotes(),
                 claim.getClaimType().getClaimType(),
                 claim.getStatus().getStatusType(),
-                claim.getClaimAmount(),
+                claimAmount,
                 claim.getUpdatedAt()
         );
 
