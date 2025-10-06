@@ -31,7 +31,7 @@
 
 
                     <!-- <td>Rs.{{claim.claimAmount}}</td> -->
-                     <td>@if(claim.claimType === 'POST' && claim.selectedAction === '3') {
+                     <td>@if(claim.claimType === 'PRE' && claim.selectedAction === '3') {
                             <input type="number"
                                 class="form-control form-control-sm"
                                     [(ngModel)]="claim.claimAmount"
@@ -82,7 +82,7 @@
                     <td>
                         <button (click)="ConfirmAction(claim, claim.selectedAction)"
                             class="btn btn-primary btn-sm"
-                            [disabled]="(claim.claimType === 'POST' && claim.selectedAction === '3' && (!claim.claimAmount || claim.claimAmount == 0)) || claim.status === 'APPROVED' || claim.status === 'REJECTED'">
+                            [disabled]="(claim.claimType === 'PRE' && claim.selectedAction === '3' && (!claim.claimAmount || claim.claimAmount == 0)) || claim.status === 'APPROVED' || claim.status === 'REJECTED'">
                             Confirm
                         </button>
                     </td>

@@ -53,10 +53,11 @@ export class ClaimManagement {
     } else if (updatedStatus === '4') {
       claim.status = "REJECTED";
     }
-    claim.claimType==="POST"
+    claim.claimType==="PRE"
       
     // const url = `${environment.apiUrl}/private/claim/update/${claim.claimId}/${updatedStatus}`;
-    const url = (claim.claimType==="POST")?`${environment.apiUrl}/private/claim/update/${claim.claimId}/${updatedStatus}/${claim.claimAmount}`:`${environment.apiUrl}/private/claim/update/${claim.claimId}/${updatedStatus}`;
+    const url = (claim.claimType==="PRE")?`${environment.apiUrl}/private/claim/update/${claim.claimId}/${updatedStatus}/${claim.claimAmount}`:`${environment.apiUrl}/private/claim/update/${claim.claimId}/${updatedStatus}`;
+    console.log(url);
     this.http.put(url, {}).subscribe();
   }
   
