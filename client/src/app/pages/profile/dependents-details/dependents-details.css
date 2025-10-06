@@ -73,3 +73,19 @@ input {
 .add-btn-container {
   margin-top: 18px;
 }
+
+.error {
+  color: #b00020;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.error-list .error {
+  margin: 2px 0;
+}
+
+.small-note {
+  font-size: 12px;
+  color: #555;
+  margin-top: 6px;
+}
