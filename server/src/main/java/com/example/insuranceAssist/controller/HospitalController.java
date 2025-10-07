@@ -30,14 +30,14 @@ public class HospitalController {
         return new ResponseEntity<>(hospitalId, HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasRole('CLIENT', 'AGENT')")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('AGENT')")
     @GetMapping("/get")
     public ResponseEntity<List<HospitalResponseDTO>> getHospital(){
         List<HospitalResponseDTO> hospitalList = hospitalService.getHospital();
         return new ResponseEntity<>(hospitalList, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('CLIENT', 'AGENT')")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('AGENT')")
     @GetMapping("/get/{hospitalId}")
     public ResponseEntity<HospitalDetailsResponseDTO> getHospitalDetails(@PathVariable UUID hospitalId) throws HospitalNotFoundException {
         HospitalDetailsResponseDTO hospital = hospitalService.getHospitalDetails(hospitalId);
