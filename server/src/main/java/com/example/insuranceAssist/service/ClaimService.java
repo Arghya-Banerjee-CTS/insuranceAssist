@@ -219,6 +219,8 @@ public class ClaimService {
         StatusTypeMaster approvedStatus = statusTypeMasterRepository.findById(3L)
                 .orElseThrow(() -> new StatusTypeNotFoundException("Status type not found with id: " + 3));
 
+        claim.setClaimAmount(claimAmount);
+
         authorizationRepository.save(claim);
 
         if(currStatus == approvedStatus) {
@@ -236,7 +238,10 @@ public class ClaimService {
                 LocalDateTime.now()
         );
 
+
+
         authorizationLogRepository.save(log);
+
 
         return new ClaimResponseDTO(
                 claim.getId(),
