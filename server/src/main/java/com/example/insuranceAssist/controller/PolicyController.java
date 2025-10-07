@@ -32,21 +32,21 @@ public class PolicyController {
         return new ResponseEntity<>(policyId, HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasRole('CLIENT', 'AGENT')")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('AGENT')")
     @GetMapping("/get/{clientId}")
     public ResponseEntity<PolicyResponseDTO> getPolicy(@PathVariable UUID clientId) throws ClientNotFoundException {
         PolicyResponseDTO response = policyService.getPolicy(clientId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('CLIENT', 'AGENT')")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('AGENT')")
     @GetMapping("get/policyType")
     public ResponseEntity<?> getPolicyType() throws PolicyTypeNotFoundException {
         List<PolicyTypeResponseDTO> response = policyService.getPolicyType();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('CLIENT', 'AGENT')")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('AGENT')")
     @GetMapping("/get/policyType/{clientId}")
     public ResponseEntity<PolicyTypeResponseDTO> getPolicyTypeByClient(@PathVariable UUID clientId) throws ClientNotFoundException {
         PolicyTypeResponseDTO response = policyService. getPolicyTypeByClient(clientId);

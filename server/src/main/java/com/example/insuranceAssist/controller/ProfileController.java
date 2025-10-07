@@ -21,14 +21,14 @@ public class ProfileController {
         this.profileService = profileService;
     }
 
-    @PreAuthorize("hasRole('CLIENT')")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('AGENT')")
     @GetMapping("/get/{userId}")
     public ResponseEntity<UserDetailsResponseDTO> getDetails(@PathVariable UUID userId) throws UserNotFoundException {
         UserDetailsResponseDTO response = profileService.getDetails(userId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('CLIENT')")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('AGENT')")
     @PutMapping("/update/{userId}")
     public ResponseEntity<UserDetailsResponseDTO> updateDetails(@PathVariable UUID userId, @RequestBody UserDetailsUpdateRequestDTO request) throws UserNotFoundException {
         UserDetailsResponseDTO response = profileService.updateDetails(userId, request);

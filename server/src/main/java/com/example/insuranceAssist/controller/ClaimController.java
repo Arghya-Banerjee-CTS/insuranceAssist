@@ -29,7 +29,7 @@ public class ClaimController {
         return new ResponseEntity<>(claimId, HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasRole('CLIENT', 'AGENT')")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('AGENT')")
     @GetMapping("/get/{claimId}")
     public ResponseEntity<ClaimResponseDTO> getClaim(@PathVariable UUID claimId) throws ClaimNotFoundException {
         ClaimResponseDTO response = claimService.getClaim(claimId);
@@ -50,7 +50,7 @@ public class ClaimController {
 //        return new ResponseEntity<>(response, HttpStatus.OK);
 //    }
 
-    @PreAuthorize("hasRole('CLIENT')")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('AGENT')")
     @GetMapping("/get/client/{clientId}")
     public ResponseEntity<List<ClaimResponseDTO>> getClaimByClient(@PathVariable UUID clientId) throws ClientNotFoundException {
         List<ClaimResponseDTO> response = claimService.getClaimByClient(clientId);
