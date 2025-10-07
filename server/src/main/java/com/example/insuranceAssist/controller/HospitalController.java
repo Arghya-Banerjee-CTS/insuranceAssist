@@ -7,6 +7,7 @@ import com.example.insuranceAssist.exception.HospitalNotFoundException;
 import com.example.insuranceAssist.service.HospitalService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,12 +29,14 @@ public class HospitalController {
         return new ResponseEntity<>(hospitalId, HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('CLIENT') or hasRole('AGENT')")
     @GetMapping("/get")
     public ResponseEntity<List<HospitalResponseDTO>> getHospital(){
         List<HospitalResponseDTO> hospitalList = hospitalService.getHospital();
         return new ResponseEntity<>(hospitalList, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('CLIENT') or hasRole('AGENT')")
     @GetMapping("/get/{hospitalId}")
     public ResponseEntity<HospitalDetailsResponseDTO> getHospitalDetails(@PathVariable UUID hospitalId) throws HospitalNotFoundException {
         HospitalDetailsResponseDTO hospital = hospitalService.getHospitalDetails(hospitalId);

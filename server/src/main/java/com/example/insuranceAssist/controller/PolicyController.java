@@ -9,6 +9,7 @@ import com.example.insuranceAssist.exception.PolicyTypeNotFoundException;
 import com.example.insuranceAssist.service.PolicyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,18 +31,21 @@ public class PolicyController {
         return new ResponseEntity<>(policyId, HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('CLIENT') or hasRole('AGENT')")
     @GetMapping("/get/{clientId}")
     public ResponseEntity<PolicyResponseDTO> getPolicy(@PathVariable UUID clientId) throws ClientNotFoundException {
         PolicyResponseDTO response = policyService.getPolicy(clientId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('CLIENT') or hasRole('AGENT')")
     @GetMapping("get/policyType")
     public ResponseEntity<?> getPolicyType() throws PolicyTypeNotFoundException {
         List<PolicyTypeResponseDTO> response = policyService.getPolicyType();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('CLIENT') or hasRole('AGENT')")
     @GetMapping("/get/policyType/{clientId}")
     public ResponseEntity<PolicyTypeResponseDTO> getPolicyTypeByClient(@PathVariable UUID clientId) throws ClientNotFoundException {
         PolicyTypeResponseDTO response = policyService. getPolicyTypeByClient(clientId);

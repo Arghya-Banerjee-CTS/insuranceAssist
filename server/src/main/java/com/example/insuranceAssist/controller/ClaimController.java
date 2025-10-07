@@ -7,6 +7,7 @@ import com.example.insuranceAssist.service.ClaimService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,6 +30,7 @@ public class ClaimController {
         return new ResponseEntity<>(claimId, HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('CLIENT') or hasRole('AGENT')")
     @GetMapping("/get/{claimId}")
     public ResponseEntity<ClaimResponseDTO> getClaim(@PathVariable UUID claimId) throws ClaimNotFoundException {
         ClaimResponseDTO response = claimService.getClaim(claimId);
@@ -47,6 +49,7 @@ public class ClaimController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('CLIENT') or hasRole('AGENT')")
     @GetMapping("/get/client/{clientId}")
     public ResponseEntity<List<ClaimResponseDTO>> getClaimByClient(@PathVariable UUID clientId) throws ClientNotFoundException {
         List<ClaimResponseDTO> response = claimService.getClaimByClient(clientId);
