@@ -4,6 +4,7 @@ import com.example.insuranceAssist.dto.UserDetailsResponseDTO;
 import com.example.insuranceAssist.dto.UserDetailsUpdateRequestDTO;
 import com.example.insuranceAssist.exception.UserNotFoundException;
 import com.example.insuranceAssist.service.ProfileService;
+// import org.apache.catalina.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

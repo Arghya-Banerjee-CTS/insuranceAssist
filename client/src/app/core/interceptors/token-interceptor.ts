@@ -20,9 +20,12 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
   return next(newReq).pipe(
     catchError((error: HttpErrorResponse) => {
       if (error.status === 401) {
+        if (!localStorage.getItem('token-expired')) {
+          localStorage.setItem('token-expired', 'true');
+          alert("Token expired: You are being logged out. Login again please.");
+        }
         localStorage.clear();
         router.navigate(['/auth']);
-        alert("Token expired: You are being logged out. Login again please.");
       }
       return throwError(() => error);
     })

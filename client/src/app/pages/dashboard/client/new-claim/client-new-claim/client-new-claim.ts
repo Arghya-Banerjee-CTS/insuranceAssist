@@ -70,4 +70,10 @@ export class ClientNewClaim {
         });
       }
     }
+
+    isClaimAmountExceedsPremium(): boolean {
+      const claimAmount = this.newClaimForm?.get('claimAmount')?.value || 0;
+      const remainingCoverage = this.policyDetails?.remainingCoverage || 0;
+    return claimAmount > remainingCoverage;
+  }
 }

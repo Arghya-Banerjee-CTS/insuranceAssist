@@ -10,6 +10,9 @@
   <li class="nav-item">
     <a class="nav-link" [class.active] = "activeTab === 'claim-history'" (click)="setTab('claim-history')">Claim History</a>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" [class.active] = "activeTab === 'network-hospitals'" (click)="setTab('network-hospitals')">Network Hospitals</a>
+  </li>
 </ul>
 
 
@@ -25,3 +28,6 @@
   <app-claim-history/>
 }
 
+@if(activeTab === 'network-hospitals'){
+  <app-agent-network-hospitals/>
+}

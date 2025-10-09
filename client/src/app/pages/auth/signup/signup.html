@@ -4,7 +4,8 @@
         <input type="text" formControlName="name" class="form-control" id="fullName" placeholder="Enter full name">
         @if (signupForm.get('name')?.touched && signupForm.get('name')?.invalid) {
             <div class="text-danger">
-                Full name is required.
+                @if(signupForm.get('name')?.errors?.['required']) { Full name is required. }
+                @if(signupForm.get('name')?.errors?.['pattern']) { Enter a valid Full name. }
             </div>
         }
     </div> 
@@ -34,7 +35,7 @@
     </div>
     <div class="mb-3">
         <label for="dob" class="form-label" >Date of Birth</label>
-        <input type="date" formControlName="dob" class="form-control" id="dob" placeholder="Enter date of birth">
+        <input type="date" [max]="maxDate" formControlName="dob" class="form-control" id="dob" placeholder="Enter date of birth">
         @if(signupForm.get('dob')?.touched && signupForm.get('dob')?.invalid){
             <div class="text-danger">Date of birth is required.</div>
         }
@@ -88,10 +89,10 @@
         }
     </div>
     <button type="button" (click)="onSignup()" class="btn btn-primary w-100">Sign Up</button>
-    @if(signupForm.hasError('fieldsMismatch') && signupForm.get('confirmEmail')?.touched) {
-        <div class="text-danger">Emails do not match.</div>
+    @if(signupForm.hasError('emailMismatch') && signupForm.get('confirmEmail')?.touched) {
+        <p class="text-danger">Emails do not match.</p>
     }
-    @if(signupForm.hasError('fieldsMismatch') && signupForm.get('confirmPassword')?.touched) {
-        <div class="text-danger">Passwords do not match.</div>
+    @if(signupForm.hasError('passwordMismatch') && signupForm.get('confirmPassword')?.touched) {
+        <p class="text-danger">Passwords do not match.</p>
     }
 </form>

@@ -23,7 +23,6 @@ public class HospitalController {
         this.hospitalService = hospitalService;
     }
 
-    @PreAuthorize("hasRole('AGENT')")
     @PostMapping("/create")
     public ResponseEntity<UUID> createHospital(@RequestBody HospitalCreateRequestDTO request){
         UUID hospitalId = hospitalService.create(request);
@@ -44,14 +43,12 @@ public class HospitalController {
         return new ResponseEntity<>(hospital, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('AGENT')")
     @PutMapping("/update/{hospitalId}")
     public ResponseEntity<HospitalDetailsResponseDTO> updateHospital(@RequestBody HospitalCreateRequestDTO request, @PathVariable UUID hospitalId) throws HospitalNotFoundException {
         HospitalDetailsResponseDTO hospital = hospitalService.updateHospital(request, hospitalId);
         return new ResponseEntity<>(hospital, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('AGENT')")
     @DeleteMapping("/delete/{hospitalId}")
     public ResponseEntity<String> deleteHospital(@PathVariable UUID hospitalId){
         hospitalService.deleteHospital(hospitalId);
