@@ -1,5 +1,6 @@
 package com.example.insuranceAssist.repository;
 
+import com.example.insuranceAssist.entity.Authorization;
 import com.example.insuranceAssist.entity.DocumentMaster;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -10,6 +11,5 @@ import java.util.UUID;
 @Repository
 public interface DocumentRepository extends JpaRepository<DocumentMaster, UUID> {
 
-
-    List<DocumentMaster> findByClaimId(UUID claimId);
+    List<DocumentMaster> findByClaimId(Authorization claimId);
 }

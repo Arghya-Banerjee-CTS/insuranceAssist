@@ -1,7 +1,10 @@
 package com.example.insuranceAssist.service;
 
 import com.example.insuranceAssist.dto.DocumentResponseDTO;
+import com.example.insuranceAssist.entity.Authorization;
 import com.example.insuranceAssist.entity.DocumentMaster;
+import com.example.insuranceAssist.exception.ClaimNotFoundException;
+import com.example.insuranceAssist.repository.AuthorizationRepository;
 import com.example.insuranceAssist.repository.DocumentRepository;
 import com.example.insuranceAssist.utils.DocumentUtils;
 import org.springframework.stereotype.Service;
@@ -11,22 +14,25 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @Service
 public class DocumentService {
 
     private final DocumentRepository documentRepository;
+    private final AuthorizationRepository authorizationRepository;
 
-    public DocumentService(DocumentRepository documentRepository) {
+    public DocumentService(DocumentRepository documentRepository, AuthorizationRepository authorizationRepository) {
         this.documentRepository = documentRepository;
+        this.authorizationRepository = authorizationRepository;
     }
 
-    public UUID uploadDocument(MultipartFile file, Map<String, Object> request) throws IOException {
+    public UUID uploadDocument(MultipartFile file, UUID claimId) throws IOException, ClaimNotFoundException {
 
         byte[] fileBytes = file.getBytes();
-        UUID claimId = (UUID) request.get("claimId");
+
+        Authorization claim = authorizationRepository.findById(claimId)
+                .orElseThrow(() -> new ClaimNotFoundException("Claim not found with id: " + claimId));
 
         byte[] dataToStore;
         if(file.getContentType().equalsIgnoreCase("application/pdf")){
@@ -40,7 +46,7 @@ public class DocumentService {
                  file.getName(),
                  file.getContentType(),
                  dataToStore,
-                 claimId,
+                 claim,
                  LocalDateTime.now()
         );
 
@@ -49,10 +55,12 @@ public class DocumentService {
 
     }
 
-    public List<DocumentResponseDTO> getDocuments(Map<String, Object> request) {
+    public List<DocumentResponseDTO> getDocuments(UUID claimId) throws ClaimNotFoundException {
 
-        UUID claimId = (UUID) request.get("claimId");
-        List<DocumentMaster> docs = documentRepository.findByClaimId(claimId);
+        Authorization claim = authorizationRepository.findById(claimId)
+                .orElseThrow(() -> new ClaimNotFoundException("Claim not found with id: " + claimId));
+
+        List<DocumentMaster> docs = documentRepository.findByClaimId(claim);
 
         List<DocumentResponseDTO> response = new ArrayList<>();
         for(DocumentMaster doc: docs) {
